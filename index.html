@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#087f8c"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preconnect" href="https://api.openalex.org" crossorigin><link rel="dns-prefetch" href="https://dorar.net">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>منصة الحديث الشاملة | د. حسن الشيباني</title>
+<meta name="description" content="منصة الحديث الشاملة للبحث في مصادر الحديث وكتب السنة والتخريج والرواة والأسانيد.">
+<style>
+:root{--bg:#f5f8fb;--card:#fff;--ink:#10243a;--muted:#56657a;--primary:#087f8c;--primary2:#0b6170;--line:#dce5ec;--soft:#e8f6f7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Calibri,Arial,sans-serif}
+header{background:linear-gradient(135deg,#073b4c,#087f8c);color:#fff;padding:34px 18px 28px;text-align:center}header h1{margin:0 0 8px;font-size:34px}header p{margin:5px auto;max-width:900px;opacity:.94}
+.wrap{max-width:1250px;margin:auto;padding:20px}.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 8px 25px #153e5012;margin-bottom:18px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tabs button{background:#eef5f7;color:var(--primary2);border:1px solid #cfe1e5}.tabs button.active{background:var(--primary);color:#fff}
+.search{display:grid;grid-template-columns:1fr 190px 120px;gap:10px}input,select,button{font:inherit;border-radius:11px;padding:11px;border:1px solid var(--line)}input,select{background:#fff}button{cursor:pointer;border:0;background:var(--primary);color:#fff;font-weight:700}button.alt{background:#eef5f7;color:var(--primary2);border:1px solid #cfe1e5}
+.filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.filterbox{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px}.filterbox label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:15px}.stat{padding:15px;border-radius:14px;background:var(--soft);text-align:center}.stat b{display:block;font-size:24px;color:var(--primary2)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}.card h3{margin:0;color:var(--primary2)}.meta{font-size:13px;color:var(--muted)}.tag{display:inline-block;background:#f1f5f9;border-radius:999px;padding:4px 8px;margin:2px;font-size:12px}.card a{color:var(--primary2);font-weight:700;text-decoration:none}.card a:hover{text-decoration:underline}
+.checkrow{display:flex;align-items:center;gap:8px;border-top:1px solid #edf2f5;padding-top:8px}.checkrow input{width:18px;height:18px}.result-count{color:var(--muted);font-size:13px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.section-title h2{margin:0}.note{background:#fff8e8;border:1px solid #f0d69b;border-radius:14px;padding:12px;color:#6c4c0b;line-height:1.7}.paper .title{font-size:18px;font-weight:700}.paper .abstract{font-size:13px;line-height:1.6;color:#475569}.loading{padding:25px;text-align:center;color:var(--muted)}footer{text-align:center;padding:28px;color:var(--muted)}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.search{grid-template-columns:1fr}.filters{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.grid{grid-template-columns:1fr}.filters{grid-template-columns:1fr}header h1{font-size:28px}.wrap{padding:12px}}
+
+.search-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.search-actions button{min-width:150px}
+.result-panel{margin-top:14px;background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:14px}
+.result-panel h3{margin:0 0 8px;color:var(--primary2)}
+.result-links{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.result-link{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-decoration:none;color:var(--ink)}
+.result-link strong{display:block;color:var(--primary2);margin-bottom:4px}
+.result-link small{color:var(--muted);line-height:1.5}
+.copy-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}
+.copy-row button{padding:8px 10px}
+.mini-note{font-size:12px;color:var(--muted);line-height:1.6}
+.book-tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.book-tools button{padding:8px 10px}
+.site-search{margin-top:14px;display:grid;grid-template-columns:1fr 130px;gap:8px}
+.empty{padding:18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px;background:#fff}
+@media(max-width:700px){.result-links{grid-template-columns:1fr}.site-search{grid-template-columns:1fr}.search-actions button{flex:1 1 140px}}
+.book-searchbar{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:12px;margin:14px 0;position:relative}.book-searchbar .search{margin:0}.book-searchbar .search-actions{margin-top:8px}.book-searchbar .search-actions button{min-width:110px}.book-searchbar .search{margin:0}.book-searchbar .search-actions{margin-top:8px}.book-searchbar .search-actions button{min-width:110px}.book-source-label{font-size:11px;font-weight:700;color:var(--primary2)}
+.progress{height:8px;background:#e6eef1;border-radius:99px;overflow:hidden;margin-top:8px}.progress i{display:block;height:100%;background:var(--primary);width:0%;transition:width .2s}
+.corpus-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.corpus-card h3{margin:0;color:var(--primary2)}
+.badge{display:inline-block;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700}
+.badge.ok{background:#e3f7ea;color:#177a44}.badge.pending{background:#eef2f6;color:#556475}.badge.err{background:#fdeceb;color:#b3261e}
+.hadith-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.hadith-text{font-size:17px;line-height:2.1;color:var(--ink)}
+.grade-row{display:flex;flex-wrap:wrap;gap:6px}.grade-chip{font-size:11px;background:#f1f5f9;border-radius:999px;padding:3px 9px}
+.term-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.term-card h3{margin:0 0 6px;color:var(--primary2);font-size:17px}
+.term-card p{margin:0;font-size:14px;line-height:1.8;color:#334155}mark.hl{background:#ffe066;color:#4a3b00;border-radius:4px;padding:0 2px;font-weight:700}
+.cnt{display:inline-block;background:var(--primary);color:#fff;border-radius:999px;padding:1px 11px;font-weight:700;margin:0 3px}
+.cnt-banner{grid-column:1/-1;background:var(--soft);border:1px solid #bfe3e6;border-radius:12px;padding:10px 14px;margin:8px 0}
+#count,#corpusCount{background:var(--soft);color:var(--primary2);font-weight:700;border-radius:999px;padding:3px 12px}#count:empty,#corpusCount:empty{display:none}
+.ref-item{border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px;background:#fff}.ref-item summary{cursor:pointer}
+.ed-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}.cite-line{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:8px;line-height:1.9;display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
+@media(max-width:600px){.ed-grid{grid-template-columns:repeat(2,1fr)}}
+
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #0f8a9d;outline-offset:2px}
+/* ===== v3.2: المصادر المعتمدة ===== */
+.reg-bar{display:grid;grid-template-columns:1fr 220px 220px;gap:10px;margin:14px 0}
+.badge.warn{background:#fff4dc;color:#8a5a00}.badge.info{background:#e6f0fb;color:#1c4f8a}
+.reg-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.reg-card h3{margin:0;color:var(--primary2);font-size:17px}.reg-card .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.reg-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}.reg-actions a,.reg-actions button{padding:8px 12px;border-radius:11px;font-size:14px;font-weight:700;text-decoration:none;border:0;cursor:pointer}
+.reg-actions a{background:var(--primary);color:#fff}
+.guide-box{margin-top:14px}.guide-box details{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}.guide-box summary{cursor:pointer;font-weight:700;color:var(--primary2)}
+.guide-box ol,.guide-box ul,.path-steps{line-height:2;margin:8px 0 0;padding-inline-start:22px}
+.path-steps li{margin-bottom:2px}
+@media(max-width:850px){.reg-bar{grid-template-columns:1fr}}
+
+/* ===== v3.3: البحث الشامل ===== */
+.uni-panel{border:2px solid #bfe3e6;background:linear-gradient(180deg,#fff,#f2fafb)}
+.uni-bar{display:grid;grid-template-columns:1fr 150px 70px;gap:10px}.uni-bar input{font-size:18px;padding:14px}
+.uni-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.uni-help{margin-top:10px}.uni-help summary{cursor:pointer;color:var(--primary2);font-weight:700}.uni-help ul{line-height:2;margin:8px 0 0;padding-inline-start:22px}.uni-help code{background:#eef5f7;border-radius:6px;padding:1px 7px;direction:ltr;unicode-bidi:plaintext}
+.uni-chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}.uni-chip{background:#eef5f7;color:var(--primary2);border:1px solid #cfe1e5;padding:8px 14px;border-radius:999px}.uni-chip.active{background:var(--primary);color:#fff}
+.uni-h{padding:5px 10px;font-size:13px;margin:2px}.sec-h{margin:18px 0 8px;color:var(--primary2)}
+@media(max-width:850px){.uni-bar{grid-template-columns:1fr 1fr}.uni-bar input{grid-column:1/-1}.uni-opts{grid-template-columns:1fr}}
+
+/* ===== v3.5 ===== */
+.hadith-text{font-size:var(--htxt,17px)}
+html[data-theme=dark]{filter:invert(.93) hue-rotate(180deg);background:#fff}
+.disp-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}.disp-bar button{padding:7px 12px;font-size:14px}.disp-bar button.on{background:var(--primary2);color:#fff}
+.stor-box{background:#f2fafb;border:1px solid #cfe1e5;border-radius:14px;padding:12px;margin:12px 0}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#10243a;color:#fff;padding:11px 18px;border-radius:12px;font-size:15px;z-index:99;max-width:92vw;box-shadow:0 10px 30px #0004}
+.dos-item textarea{width:100%;min-height:64px;margin-top:8px;border:1px solid var(--line);border-radius:12px;padding:10px;font:inherit;resize:vertical}
+.dos-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}.dos-row select{width:auto;min-width:130px}
+.about-sec h3{color:var(--primary2);margin:18px 0 6px}.about-sec ul,.about-sec ol{line-height:2;padding-inline-start:22px;margin:6px 0}
+@media print{header,.tabs,#uniPanel,.disp-bar,footer,.book-tools,button,.toast,.toolbar{display:none!important}body{background:#fff}.panel{box-shadow:none;border:0}html[data-theme=dark]{filter:none}}
+</style>
+</head>
+<body><header><h1>منصة الحديث الشاملة</h1><p>للبحث والتخريج ودراسة الروايات والأسانيد والرواة وعلوم الحديث</p><p>الإصدار <span id="verHead">3.5</span> — بحث شامل، مصادر معتمدة، ملف بحث، توثيق علمي</p></header><main class="wrap">
+<div class="disp-bar" role="toolbar" aria-label="خيارات العرض"><button class="alt" id="dispDark" onclick="dispToggle('dark')" aria-pressed="false">🌙 الوضع الليلي</button><button class="alt" onclick="dispFont(-1)" aria-label="تصغير خط الأحاديث">أ−</button><button class="alt" onclick="dispFont(1)" aria-label="تكبير خط الأحاديث">أ+</button><button class="alt" id="dispTash" onclick="dispToggle('plain')" aria-pressed="false">إخفاء التشكيل (للعرض فقط)</button></div>
+<section class="panel uni-panel" id="uniPanel"><div class="section-title"><h2>🔍 البحث الشامل في المنصة</h2><span class="meta">أحاديث · كتب · مصادر معتمدة · علوم الحديث · بوابات · مراجع</span></div>
+<div class="uni-bar" style="margin-top:12px"><input id="uniQ" autocomplete="off" placeholder="اكتب كلمة، أو حرفين، أو جزءًا من كلمة، أو رقم حديث، أو اسم كتاب أو راوٍ…" aria-label="البحث الشامل"><button onclick="uniSearch(true)">🔍 بحث شامل</button><button class="alt" onclick="uniClear()" title="مسح" aria-label="مسح البحث">↺</button></div>
+<div class="uni-opts"><div class="filterbox"><label>طريقة البحث</label><select id="uniMode"><option value="smart">ذكي: جزء من كلمة، حرفان، بادئة «ال»</option><option value="phrase">عبارة كاملة بالترتيب</option><option value="any">أي كلمة من الكلمات</option><option value="fuzzy">تقريبي: يتسامح مع الأخطاء الإملائية</option><option value="start">بداية الكلمة</option><option value="whole">كلمة كاملة</option></select></div><div class="filterbox"><label>نطاق البحث في الأحاديث</label><select id="uniScope"><option value="text">في المتن</option><option value="all">المتن + الكتاب والرقم والحكم المنقول</option><option value="meta">الكتاب والرقم والحكم المنقول فقط</option></select></div><div class="filterbox"><label>الكتاب</label><select id="uniBook"><option value="all">كل الكتب المستوردة</option></select></div><div class="filterbox"><label>الويب</label><label style="display:flex;gap:8px;align-items:center;color:var(--ink);font-size:14px;cursor:pointer"><input type="checkbox" id="uniWeb" checked style="width:18px;height:18px"> الدرر السنية + دراسات OpenAlex</label></div></div>
+<div class="mini-note" style="margin-top:8px">عند تفعيل «الويب» تُرسَل <b>عبارة البحث فقط</b> إلى الدرر السنية (عبر خادم المنصة إن وُجد) وإلى OpenAlex؛ أما نصوص المدونة المحلية فتبقى في متصفحك ولا تُرسل.</div>
+<div class="toolbar" style="margin-top:8px"><button class="alt" onclick="uniShare()">🔗 نسخ رابط هذا البحث</button></div>
+<div id="uniHist" style="margin-top:8px"></div>
+<details class="uni-help"><summary>طرق البحث المدعومة (أمثلة)</summary><ul><li><b>كلمة أو حرفان أو جزء من كلمة:</b> <code>نية</code> · <code>صل</code> · <code>مسلم</code> — يُطابَق داخل الكلمات، ولا يُشترط ضبط الهمزات أو التاء المربوطة أو التشكيل.</li><li><b>عدة كلمات:</b> <code>الأعمال النيات</code> — يجب أن توجد كلها في الحديث (وتتقدم الأحاديث التي تحوي العبارة متصلةً).</li><li><b>عبارة بالترتيب:</b> <code>"إنما الأعمال بالنيات"</code></li><li><b>استبعاد كلمة:</b> <code>صلاة -الجمعة</code></li><li><b>نجمة وعلامة استفهام:</b> <code>صل*</code> (أي كلمة تبدأ بـ صل) · <code>ص?م</code> (حرف واحد مجهول)</li><li><b>رقم حديث:</b> <code>1</code> أو <code>البخاري 1</code> أو <code>رقم 2605</code></li><li><b>الحكم المنقول:</b> اختر نطاق «المتن + الكتاب والرقم والحكم» ثم اكتب <code>ضعيف</code> أو <code>صحيح</code>.</li><li><b>أخطاء الإملاء:</b> إن لم توجد نتيجة مطابقة تجرّب المنصة تلقائيًا البحث التقريبي ثم «أي كلمة».</li><li>اختصار: اضغط <code>/</code> للانتقال إلى مربع البحث.</li></ul></details>
+<div id="uniStatus" class="sr-only" role="status" aria-live="polite"></div><div id="uniOut" hidden style="margin-top:14px"></div></section>
+
+<section class="panel"><div class="tabs" id="tabs"><button onclick="showTab('agent',this)">🤖 المساعد البحثي</button>
+<button class="active" onclick="showTab('hadith',this)">🔎 البحث الحديثي</button><button onclick="showTab('corpus',this)">🗂️ المدونة المحلية</button><button onclick="showTab('books',this)">📚 الكتب والمجاميع</button><button onclick="showTab('papers',this)">📄 الدراسات والأوراق</button><button onclick="showTab('ulum',this)">🎓 علوم الحديث</button><button onclick="showTab('dossier',this)">📁 ملف البحث</button><button onclick="showTab('registry',this)">✅ المصادر المعتمدة</button><button onclick="showTab('sitesTab',this)">🌐 بوابات مجانية</button><button onclick="showTab('about',this)">ℹ️ عن المنصة</button></div>
+<div id="tab-hadith"><div class="section-title"><h2>البحث في الحديث</h2><span class="meta">النظام لا يصدر حكمًا حديثيًا من عنده</span></div>
+<div class="search" style="margin-top:14px"><input id="q" placeholder="متن الحديث، راوٍ، كتاب، موضوع..." onkeydown="if(event.key==='Enter')searchHadith()"><select id="site"><option value="dorar">الدرر السنية</option><option value="sunnah">Sunnah.com</option><option value="islamweb">إسلام ويب</option><option value="waqfeya">المكتبة الوقفية</option></select><button onclick="searchHadith()">بحث</button></div>
+<div class="filters"><div class="filterbox"><label>من سنة</label><input id="hFrom" type="number" placeholder="اختياري"></div><div class="filterbox"><label>إلى سنة</label><input id="hTo" type="number" placeholder="اختياري"></div><div class="filterbox"><label>نوع المادة</label><select id="hType"><option>كل المواد</option><option>أحاديث</option><option>آثار</option><option>شروح</option></select></div><div class="filterbox"><label>الحكم المنقول</label><select id="hGrade"><option>كل الأحكام</option><option>صحيح</option><option>حسن</option><option>ضعيف</option><option>موضوع</option></select></div></div>
+<div class="toolbar"><button class="alt" onclick="setQ('إنما الأعمال بالنيات')">حديث النية</button><button class="alt" onclick="setQ('لا ضرر ولا ضرار')">لا ضرر</button><button class="alt" onclick="setQ('من كان يؤمن بالله واليوم الآخر')">الإيمان بالله</button><button class="alt" onclick="setQ('خيركم من تعلم القرآن وعلمه')">تعلم القرآن</button></div>
+<div class="search-actions"><button onclick="searchHadith()">🔎 تنفيذ البحث</button><button class="alt" onclick="openAllHadithSources()">🌐 فتح جميع المصادر</button><button class="alt" onclick="copyHadithQuery()">📋 نسخ الاستعلام</button><button class="alt" onclick="clearHadithSearch()">↺ مسح</button></div>
+<div id="hadithResults" class="result-panel" hidden></div>
+<div class="stats"><div class="stat"><b id="statImported">0</b>مجاميع مستوردة محليًا</div><div class="stat"><b id="statHadiths">0</b>حديثًا مخزَّنًا محليًا</div><div class="stat"><b id="statSites">6</b>بوابات ومصادر بحث</div><div class="stat"><b>∞</b>قابل للتوسع</div></div></div>
+<div id="tab-corpus" hidden>
+<div class="section-title"><h2>المدونة الحديثية المحلية</h2><span class="meta">استيراد وتخزين دائم داخل المتصفح (IndexedDB)</span></div>
+<div class="note"><strong>مصدر البيانات:</strong> نصوص الأحاديث تُستورد من قاعدة بيانات Hadith API المفتوحة (fawazahmed0/hadith-api، ترخيص Unlicense/مِلك عام) وتُخزَّن في متصفحك فقط، ولا تُرسل إلى أي خادم. الأحكام المذكورة (إن وُجدت) هي أحكام محدثين منقولة كما هي في المصدر، والمنصة لا تستحدث حكمًا حديثيًا من عندها.</div>
+<div class="stor-box"><div><b>حالة التخزين:</b> <span id="storState">جارٍ الفحص…</span> <button class="alt" onclick="storRequest()">طلب التخزين الدائم</button></div><div class="mini-note" id="storQuota"></div></div>
+<div class="stor-box"><div><b>استيراد سريع:</b></div><div class="toolbar" style="margin-top:8px"><button onclick="bulkImport('basic')">⬇ الأساسيات (البخاري ومسلم)</button><button onclick="bulkImport('six')">⬇ الكتب الستة + الموطأ</button><button class="alt" onclick="bulkImport('all')">⬇ كل الكتب</button></div><div id="bulkStatus" class="mini-note" role="status" aria-live="polite"></div>
+<div style="margin-top:10px"><b>نسخة احتياطية:</b></div><div class="toolbar" style="margin-top:8px"><button class="alt" onclick="backupExport()">💾 حفظ نسخة احتياطية للمدونة</button><button class="alt" onclick="document.getElementById('backupFile').click()">📂 استعادة من نسخة</button><input type="file" id="backupFile" accept=".json,application/json" hidden aria-label="استعادة نسخة احتياطية للمدونة" onchange="backupImport(this.files[0])"></div><div class="mini-note">الملف قد يكون كبيرًا بحسب الكتب المستوردة. احتفظ به خارج المتصفح؛ فهو يحميك من مسح بيانات المتصفح أو تبديل الجهاز.</div></div>
+<div class="grid" id="corpusBooks"></div>
+<div id="corpusStatus" class="mini-note" style="margin-top:10px"></div>
+<div class="book-searchbar" style="margin-top:16px">
+<div class="section-title"><h2 style="font-size:16px">بحث في النصوص المستوردة</h2><span id="corpusCount" class="meta"></span></div>
+<div class="search" style="grid-template-columns:1fr 200px 130px">
+<input id="corpusQ" placeholder="اكتب كلمات من المتن..." onkeydown="if(event.key==='Enter')searchCorpus()">
+<select id="corpusBookFilter"><option value="all">كل الكتب المستوردة</option></select>
+<button onclick="searchCorpus()">🔎 بحث</button>
+</div>
+</div>
+<div id="corpusResults" class="grid" style="margin-top:14px"></div>
+</div>
+<div id="tab-books" hidden><div class="section-title"><h2>مكتبة المصادر الحديثية</h2><span id="count" class="meta"></span></div>
+<div class="book-searchbar">
+<div class="search" style="grid-template-columns:1fr 130px">
+<input id="filter" placeholder="ابحث في الكتب والمجاميع: العنوان، المؤلف، التصنيف..." onkeydown="if(event.key==='Enter')searchBooks()">
+<button onclick="searchBooks()">🔎 بحث</button>
+</div>
+<div class="search-actions">
+<button class="alt" onclick="showAllBooks()">📚 الكل</button>
+<button class="alt" onclick="clearBookSearch()">↺ مسح البحث</button>
+</div>
+</div>
+<div class="filters"><div class="filterbox"><label>التصنيف</label><select id="cat" onchange="renderBooks()"></select></div><div class="filterbox"><label>ترتيب النتائج</label><select id="bookSort" onchange="renderBooks()"><option value="title">العنوان</option><option value="author">المؤلف</option><option value="category">التصنيف</option></select></div><div class="filterbox"><label>عرض</label><select id="bookView" onchange="renderBooks()"><option value="all">الكل</option><option value="selected">المحدد فقط</option></select></div><div class="filterbox"><label>حالة التحديد</label><select onchange="setBookSelectionView(this.value)"><option value="all">كل النتائج</option><option value="selected">المحدد فقط</option></select></div></div>
+<div class="toolbar"><button onclick="selectAllBooks(true)">☑ تحديد الكل</button><button class="alt" onclick="selectAllBooks(false)">☐ إلغاء الكل</button><button onclick="exportSelectedBooks('csv')">⬇ CSV</button><button onclick="exportSelectedBooks('ris')">⬇ RIS</button><button onclick="exportSelectedBooks('txt')">⬇ استشهاد</button><button class="alt" onclick="copySelectedBooksCitations()">📋 نسخ المحدد</button><span id="bookSelected" class="result-count">0 محدد</span></div><div class="mini-note">كل بيانات المؤلفين والتصنيفات هنا فهرسة أولية. لا تُعرض سنة طبعة ما لم تكن مثبتة في بيانات المصدر.</div><div class="grid" id="books"></div></div>
+<div id="tab-papers" hidden><div class="section-title"><h2>الدراسات والأوراق العلمية</h2><span class="meta">بحث مفتوح عبر OpenAlex</span></div>
+<div class="search" style="margin-top:14px"><input id="paperQ" placeholder="مثال: hadith criticism / تخريج الحديث" onkeydown="if(event.key==='Enter')searchPapers()"><button onclick="searchPapers()">بحث</button></div>
+<div class="filters"><div class="filterbox"><label>من سنة</label><input id="pFrom" type="number" value="2000"></div><div class="filterbox"><label>إلى سنة</label><input id="pTo" type="number" value="2026"></div><div class="filterbox"><label>عدد النتائج</label><select id="pCount"><option>10</option><option selected>20</option><option>50</option></select></div><div class="filterbox"><label>اللغة</label><select id="pLang"><option value="">كل اللغات</option><option value="ar">العربية</option><option value="en">الإنجليزية</option></select></div></div>
+<div class="toolbar"><button onclick="selectAllPapers(true)">☑ تحديد الكل</button><button class="alt" onclick="selectAllPapers(false)">☐ إلغاء الكل</button><button onclick="exportSelectedPapers('csv')">⬇ CSV</button><button onclick="exportSelectedPapers('ris')">⬇ RIS</button><button onclick="exportSelectedPapers('bib')">⬇ BibTeX</button><button onclick="exportSelectedPapers('txt')">⬇ استشهاد</button><button class="alt" onclick="copySelectedPapersCitations()">📋 نسخ المحدد</button><span id="paperSelected" class="result-count">0 محدد</span></div><div id="papers" class="grid"><div class="loading">أدخل كلمات البحث ثم اضغط «بحث».</div></div></div>
+<div id="tab-ulum" hidden>
+<div class="section-title"><h2>علوم الحديث ومصطلحه</h2><span class="meta">تعريفات أساسية موجزة للدارس والباحث</span></div>
+<div class="note"><strong>ملاحظة منهجية:</strong> هذه تعريفات مبدئية عامة متعارف عليها في كتب المصطلح، وليست بديلاً عن دراسة مصنَّفات علوم الحديث المتخصصة (كنخبة الفكر لابن حجر، وتدريب الراوي للسيوطي، وغيرها).</div>
+<div class="grid" id="ulumTerms"></div>
+<div class="guide-box" id="ulumGuide"></div>
+</div>
+<div id="tab-agent" hidden><div class="section-title"><h2>المساعد البحثي</h2><span class="meta">يجيب من نصوص المدونة المستوردة فقط</span></div>
+<div class="note"><strong>منهج المساعد:</strong> يسترجع أقرب النصوص من الكتب المستوردة، ثم (إن فُعِّل الذكاء الاصطناعي) يشرحها مع الإحالة إلى رقم كل نص. لا يكتب متنًا من ذاكرته ولا يصدر حكمًا حديثيًا من عنده.</div>
+<div class="search" style="grid-template-columns:1fr 130px;margin-top:12px"><input id="agentQ" placeholder="مثال: ما الأحاديث الواردة في فضل الصلاة؟" onkeydown="if(event.key==='Enter')askAgent()"><button id="agentBtn" onclick="askAgent()">اسأل</button></div>
+<details style="margin-top:10px"><summary>إعداد المساعد الذكي (اختياري)</summary><div class="site-search"><input id="agentUrl" placeholder="رابط الـ Worker: https://…workers.dev" oninput="saveAgentUrl(this.value)"><span class="mini-note">بدونه يعمل المساعد في وضع الاسترجاع فقط.</span></div></details>
+<div id="agentOut" style="margin-top:14px"></div></div>
+<div id="tab-dossier" hidden><div class="section-title"><h2>ملف البحث</h2><span class="meta" id="dosCount"></span></div>
+<div class="note">اجمع هنا الأحاديث التي تدرسها (من المدونة المحلية أو من الدرر السنية) بزر «إلى ملف البحث»، وصنّف كلًّا منها (أصل، طريق، متابعة، شاهد)، وأضف ملاحظاتك. يُحفظ الملف تلقائيًا في متصفحك، ويمكن تصديره بصيغة Word أو PDF مع المراجع المنسّقة. أحكام المحدثين فيه منقولة من مصادرها وليست من المنصة.</div>
+<div class="filterbox" style="margin-top:12px"><label for="dosTitle">عنوان البحث</label><input id="dosTitle" placeholder="مثال: تخريج حديث «إنما الأعمال بالنيات»" oninput="dosTitleSet(this.value)"></div>
+<div class="toolbar" style="margin-top:12px"><button onclick="dosAddNote()">📝 إضافة ملاحظة</button><button onclick="dosWord()">📄 تصدير Word</button><button onclick="dosPrint()">🖨️ طباعة / حفظ PDF</button><button class="alt" onclick="dosExportJson()">💾 حفظ الملف (JSON)</button><button class="alt" onclick="document.getElementById('dosFile').click()">📂 فتح ملف محفوظ</button><button class="alt" onclick="dosClear()">🗑 مسح الملف</button><input type="file" id="dosFile" accept=".json,application/json" hidden aria-label="فتح ملف بحث محفوظ" onchange="dosImportJson(this.files[0])"></div>
+<div id="dosSummary" class="mini-note"></div><div id="dosList" class="grid" style="grid-template-columns:1fr;margin-top:12px"></div></div>
+<div id="tab-about" hidden class="about-sec"><div class="section-title"><h2>عن المنصة</h2><span class="meta">الإصدار <span id="verAbout"></span></span></div>
+<p>منصة الحديث الشاملة أداة بحثية تساعد الباحث على الوصول إلى نصوص الأحاديث ومصادرها، وتنظيم دراسته للطرق والشواهد، وتوثيق ما يجده بصيغ علمية. وهي مشروع بحثي بإشراف د. حسن الشيباني.</p>
+<h3>ما الذي تقدمه؟</h3><ul><li>بحث شامل في الأحاديث المستوردة وفي الكتب والمصادر المعتمدة وعلوم الحديث، وفي الويب (الدرر السنية والدراسات).</li><li>مدونة محلية لنصوص كتب الحديث تعمل في متصفحك مع نسخ احتياطي واستعادة.</li><li>ملف بحث لتجميع الأحاديث وتصنيفها وتصديرها، ومختبر توثيق (APA وMLA وشيكاغو وهارفارد وIEEE وصيغة المحدثين).</li><li>سجل مصادر معتمدة مأخوذ من «دليل المصادر والمراجع المعتمدة» مع حالة تحقق ظاهرة لكل رابط.</li></ul>
+<h3>مصادر البيانات</h3><ul><li><b>نصوص الأحاديث:</b> Hadith API المفتوح (fawazahmed0/hadith-api).</li><li><b>بحث الأحاديث وأحكام المحدثين في الويب:</b> الموسوعة الحديثية — الدرر السنية (dorar.net)، وتُعرض منسوبة إلى قائلها.</li><li><b>الدراسات:</b> OpenAlex، والكتب عبر Open Library.</li></ul>
+<h3>حدود المنصة</h3><ul><li>المنصة أداة مساعدة، ولا تصدر حكمًا حديثيًا من عندها؛ وما تعرضه من أحكام منقول من مصادره.</li><li>راجع النص في الطبعة المحققة قبل الاقتباس النهائي، ولا تُغنِ النتائج الآلية عن أهل الاختصاص.</li><li id="aboutReview"></li></ul>
+<h3>الخصوصية</h3><ul><li>النصوص المستوردة وملف البحث وقائمة المراجع تُخزَّن في متصفحك فقط.</li><li>عند تفعيل البحث في الويب تُرسَل عبارة البحث وحدها إلى الدرر السنية وOpenAlex.</li></ul>
+<h3>كيف تُوثّق المنصة؟</h3><div class="cite-line"><span id="aboutCite" dir="auto"></span><button class="alt" style="flex:none" onclick="copyPlain(document.getElementById('aboutCite').textContent).then(ok=>toast(ok?'تم النسخ.':'تعذر النسخ.'))">نسخ</button></div>
+<h3>سجل الإصدارات</h3><ul id="aboutLog"></ul><div id="aboutContact" class="mini-note" style="margin-top:12px"></div></div>
+<div id="tab-registry" hidden><div class="section-title"><h2>المصادر والمراجع المعتمدة</h2><span id="regCount" class="meta"></span></div>
+<div class="note"><strong>سجل مصادر مُراجَع:</strong> مأخوذ من «دليل المصادر والمراجع المعتمدة للبحث في علوم الحديث». المواقع أدوات مساعدة للبحث والفهرسة، ويُراجَع النص في مصدره الأصلي أو طبعة محققة قبل الاقتباس النهائي. وكل مصدر يحمل <b>حالة رابط</b> صريحة: لا نكتب معرّف كتاب لم نتحقق منه، فنفتح بحثًا موجَّهًا بالعنوان بدلًا من رابط مخمَّن. <span id="regReview"></span></div>
+<div class="reg-bar"><input id="regQ" placeholder="ابحث في المصادر: عنوان، مؤلف، أداة..." oninput="renderRegistry()"><select id="regGroup" onchange="renderRegistry()"></select><select id="regStatus" onchange="renderRegistry()"></select></div>
+<div id="regMsg" class="mini-note" role="status" aria-live="polite"></div>
+<div class="grid" id="regGrid"></div>
+</div>
+<div id="tab-sitesTab" hidden><div class="section-title"><h2>بوابات الحديث والمكتبات المجانية</h2><span class="meta">روابط بحث مباشرة بحسب موضوعك</span></div><div class="site-search"><input id="siteSearchQ" placeholder="اكتب موضوعًا، عنوان كتاب، أو اسم راوٍ..."><button onclick="renderSites()">بحث</button></div><div id="sites" class="grid"></div></div></section>
+<section class="panel" id="citeLab"><h2>النسخ والتوثيق العلمي</h2><div class="note"><strong>مختبر التوثيق:</strong> اجمع الأحاديث والمصادر والدراسات في قائمة مراجع واحدة، ثم أخرجها بأحد أنظمة التوثيق المعتمدة (APA · MLA · Chicago · Harvard · IEEE · التوثيق العربي الأكاديمي). تُكتب البيانات المتوفرة فقط دون اختلاق؛ وأكمل بيانات الطبعة المعتمدة (المحقق، الناشر، السنة، الجزء والصفحة) من الطبعة المطبوعة التي رجعت إليها.</div>
+<div class="filters" style="grid-template-columns:repeat(2,1fr)"><div class="filterbox"><label>نظام التوثيق</label><select id="citeStyle" onchange="renderCiteOut()"></select></div><div class="filterbox"><label>صيغة المخرج</label><select id="citeMode" onchange="renderCiteOut()"><option value="bib">قائمة المراجع (المصادر)</option><option value="fn">الحاشية (الهامش)</option><option value="in">الاستشهاد داخل المتن</option></select></div></div>
+<div class="toolbar"><button onclick="importSelectedRefs()">⬇ جلب المحدد من الكتب والدراسات</button><button onclick="copyCiteAll()">📋 نسخ الكل</button><button class="alt" onclick="downloadCite()">⬇ نص</button><button class="alt" onclick="exportRefsRis()">⬇ RIS</button><button class="alt" onclick="clearRefs()">🗑 تفريغ</button></div>
+<div id="refList"></div><h3 style="margin:16px 0 0;color:var(--primary2)">المخرج الموثَّق</h3><div id="citeOut"></div>
+<div class="mini-note" style="margin-top:10px">في المصادر الحديثية يُفصل نص الحديث عن الحكم المنقول عن المحدث؛ ورقم الحديث هو ترقيم قاعدة البيانات المستوردة، فيُراجَع على الطبعة المعتمدة قبل الاعتماد في بحث محكَّم. وتُكتب أسماء المؤلفين كما وردت دون قلب ترتيبها، وتُراجَع مع دليل الجهة المحكِّمة.</div></section>
+
+<section class="panel"><h2>منهجية البيانات</h2><div class="note"><strong>قاعدة علمية:</strong> نص الحديث، التخريج، السند، الرواة، أحكام المحدثين، اختلاف الروايات، الشروح، غريب الحديث، والعلل طبقات مستقلة. والتحليل الآلي مساعد للباحث ولا يتحول إلى حكم تصحيح أو تضعيف مستقل.</div><div class="note" style="margin-top:10px"><strong>الخصوصية ومصادر الويب:</strong> النصوص المستوردة تُخزَّن في متصفحك فقط. وعند تفعيل البحث في الويب تُرسَل عبارة البحث وحدها إلى الدرر السنية وOpenAlex لجلب النتائج، ولا تُرسَل أي بيانات أخرى. وأحكام المحدثين الظاهرة في نتائج الدرر السنية منقولة كما وردت عندهم، والمنصة لا تصدر حكمًا من عندها.</div></section>
+</main><footer>منصة الحديث الشاملة — مشروع بحثي بإشراف د. حسن الشيباني · الإصدار <span id="verFoot">3.5</span></footer><div id="toast" class="toast" role="status" aria-live="polite" hidden></div><script>
+const sites=[{name:'الموسوعة الحديثية — الدرر السنية',type:'بحث حديثي متقدم',desc:'بحث بحسب العبارات ونطاق البحث والدرجة والمحدث والكتاب والراوي، مع خدمات التخريج والشروح.',url:'https://dorar.net/hadith'},{name:'Sunnah.com',type:'مجاميع حديثية وبحث متقدم',desc:'الكتب التسعة ومصادر أصلية أخرى، مع بحث نصي وتصفية بحسب المجموعة.',url:'https://sunnah.com'},{name:'المكتبة الإسلامية — إسلام ويب',type:'كتب ونصوص وشروح',desc:'مكتبة مجانية للكتب والمتون والشروح والتراجم.',url:'https://www.islamweb.net/ar/library/'},{name:'المكتبة الوقفية',type:'كتب مصورة وPDF',desc:'مكتبة واسعة للكتب الحديثية والمسانيد والسنن وعلوم الحديث والرجال.',url:'https://www.waqfeya.net/'},{name:'OpenAlex',type:'دراسات وأوراق علمية',desc:'فهرس مفتوح للأبحاث العلمية مع التصفية الزمنية.',url:'https://openalex.org/'},{name:'Crossref',type:'بيانات ببليوغرافية',desc:'بيانات مفتوحة للمقالات والدوريات والكتب وDOI.',url:'https://search.crossref.org/'}];
+const books=[['صحيح البخاري','محمد بن إسماعيل البخاري','صحيح','الصحيحان'],['صحيح مسلم','مسلم بن الحجاج','صحيح','الصحيحان'],['سنن أبي داود','أبو داود السجستاني','سنن','الكتب التسعة'],['جامع الترمذي','محمد بن عيسى الترمذي','جامع/سنن','الكتب التسعة'],['سنن النسائي (المجتبى)','أحمد بن شعيب النسائي','سنن','الكتب التسعة'],['سنن ابن ماجه','محمد بن يزيد ابن ماجه','سنن','الكتب التسعة'],['موطأ مالك','مالك بن أنس','موطأ','الكتب التسعة'],['مسند أحمد','أحمد بن حنبل','مسند','الكتب التسعة'],['سنن الدارمي','عبد الله بن عبد الرحمن الدارمي','سنن/مسند','الكتب التسعة'],['صحيح ابن خزيمة','محمد بن إسحاق ابن خزيمة','صحيح','صحاح ومجاميع'],['صحيح ابن حبان','محمد بن حبان','صحيح','صحاح ومجاميع'],['المستدرك على الصحيحين','الحاكم النيسابوري','مستدرك','صحاح ومجاميع'],['مصنف عبد الرزاق','عبد الرزاق الصنعاني','مصنف','المصنفات'],['مصنف ابن أبي شيبة','عبد الله بن أبي شيبة','مصنف','المصنفات'],['سنن سعيد بن منصور','سعيد بن منصور','سنن','المصنفات'],['مسند أبي داود الطيالسي','أبو داود الطيالسي','مسند','المسانيد'],['مسند أبي يعلى','أبو يعلى الموصلي','مسند','المسانيد'],['مسند البزار','أحمد بن عمرو البزار','مسند','المسانيد'],['مسند الحميدي','عبد الله بن الزبير الحميدي','مسند','المسانيد'],['مسند الشافعي','محمد بن إدريس الشافعي','مسند','المسانيد'],['المعجم الكبير','الطبراني','معجم','المسانيد والجوامع'],['المعجم الأوسط','الطبراني','معجم','المسانيد والجوامع'],['المعجم الصغير','الطبراني','معجم','المسانيد والجوامع'],['السنن الكبرى للبيهقي','أحمد بن الحسين البيهقي','سنن','السنن والجوامع'],['السنن الصغرى للبيهقي','أحمد بن الحسين البيهقي','سنن','السنن والجوامع'],['سنن الدارقطني','علي بن عمر الدارقطني','سنن','السنن والجوامع'],['شرح معاني الآثار','أحمد بن محمد الطحاوي','آثار/أحكام','السنن والجوامع'],['شرح مشكل الآثار','أحمد بن محمد الطحاوي','آثار','السنن والجوامع'],['الأدب المفرد','محمد بن إسماعيل البخاري','آداب','مجاميع حديثية'],['الشمائل المحمدية','محمد بن عيسى الترمذي','شمائل','مجاميع حديثية'],['رياض الصالحين','يحيى بن شرف النووي','منتقى','مجاميع حديثية'],['بلوغ المرام','أحمد بن حجر العسقلاني','أحكام','مجاميع حديثية'],['مشكاة المصابيح','محمد بن عبد الله التبريزي','مجاميع','مجاميع حديثية'],['جامع الأصول','ابن الأثير الجزري','مجاميع/فهرسة','مجاميع حديثية'],['مجمع الزوائد','نور الدين الهيثمي','زوائد','مجاميع حديثية'],['الأحاديث المختارة','محمد بن عبد الواحد المقدسي','منتقى','مجاميع حديثية'],['السنة لابن أبي عاصم','ابن أبي عاصم','سنة/اعتقاد','باقي المجموعات'],['شرح السنة','الحسين بن مسعود البغوي','شرح/حديث','باقي المجموعات'],['صحيح الجامع','محمد ناصر الدين الألباني','تصحيح/جمع','باقي المجموعات'],['ضعيف الجامع','محمد ناصر الدين الألباني','تخريج/حكم','باقي المجموعات'],['علل الحديث لابن أبي حاتم','ابن أبي حاتم الرازي','علل','علوم الحديث'],['علل الدارقطني','علي بن عمر الدارقطني','علل','علوم الحديث'],['العلل الكبير للترمذي','محمد بن عيسى الترمذي','علل','علوم الحديث'],['تهذيب الكمال','المزي','رجال','الجرح والتعديل'],['تهذيب التهذيب','ابن حجر العسقلاني','رجال','الجرح والتعديل'],['تقريب التهذيب','ابن حجر العسقلاني','رجال','الجرح والتعديل'],['ميزان الاعتدال','الذهبي','رجال','الجرح والتعديل'],['الكاشف','الذهبي','رجال','الجرح والتعديل'],['الجرح والتعديل','ابن أبي حاتم الرازي','رجال','الجرح والتعديل'],['الثقات','ابن حبان','رجال','الجرح والتعديل'],['كنز العمال','المتقي الهندي','جوامع','الموسوعات والأطراف'],['جمع الجوامع (الجامع الكبير)','جلال الدين السيوطي','جوامع','الموسوعات والأطراف'],['الجامع الصغير','جلال الدين السيوطي','جوامع','الموسوعات والأطراف'],['جامع المسانيد والسنن','ابن كثير','جامع مسانيد','الموسوعات والأطراف'],['تحفة الأشراف بمعرفة الأطراف','المزي','أطراف','الموسوعات والأطراف'],['إتحاف المهرة بالفوائد المبتكرة من أطراف العشرة','ابن حجر العسقلاني','أطراف','الموسوعات والأطراف'],['المسند المصنف المعلل','بشار عواد معروف وآخرون','موسوعة','الموسوعات والأطراف'],['الترغيب والترهيب','المنذري','موضوعي','الموسوعات والأطراف'],['إتحاف الخيرة المهرة بزوائد المسانيد العشرة','البوصيري','زوائد','التخريج والزوائد'],['المطالب العالية بزوائد المسانيد الثمانية','ابن حجر العسقلاني','زوائد','التخريج والزوائد'],['مصباح الزجاجة في زوائد ابن ماجه','البوصيري','زوائد','التخريج والزوائد'],['مجمع البحرين في زوائد المعجمين','الهيثمي','زوائد','التخريج والزوائد'],['التلخيص الحبير','ابن حجر العسقلاني','تخريج','التخريج والزوائد'],['نصب الراية','الزيلعي','تخريج','التخريج والزوائد'],['البدر المنير','ابن الملقن','تخريج','التخريج والزوائد'],['إرواء الغليل','محمد ناصر الدين الألباني','تخريج','التخريج والزوائد'],['سلسلة الأحاديث الصحيحة','محمد ناصر الدين الألباني','سلسلة','السلاسل'],['سلسلة الأحاديث الضعيفة والموضوعة','محمد ناصر الدين الألباني','سلسلة','السلاسل'],['صحيح الترغيب والترهيب','محمد ناصر الدين الألباني','سلسلة','السلاسل'],['ضعيف الترغيب والترهيب','محمد ناصر الدين الألباني','سلسلة','السلاسل'],['مسند إسحاق بن راهويه','إسحاق بن راهويه','مسند','المسانيد'],['مسند ابن أبي شيبة','أبو بكر ابن أبي شيبة','مسند','المسانيد'],['مسند الروياني','محمد بن هارون الروياني','مسند','المسانيد'],['مسند الشاشي','الهيثم بن كليب الشاشي','مسند','المسانيد'],['المنتخب من مسند عبد بن حميد','عبد بن حميد','مسند','المسانيد'],['مسند الشاميين','الطبراني','مسند','المسانيد'],['مسند الشهاب','القضاعي','مسند','المسانيد'],['مستخرج أبي عوانة','أبو عوانة الإسفراييني','مستخرج','المسانيد'],['السنن الكبرى للنسائي','أحمد بن شعيب النسائي','سنن','السنن والجوامع'],['المنتقى لابن الجارود','ابن الجارود','جامع','السنن والجوامع'],['معرفة السنن والآثار','البيهقي','سنن وآثار','السنن والجوامع'],['شعب الإيمان','البيهقي','موضوعي','السنن والجوامع'],['موطأ محمد بن الحسن الشيباني','محمد بن الحسن الشيباني','موطأ','المصنفات'],['الآثار لمحمد بن الحسن','محمد بن الحسن الشيباني','آثار','المصنفات'],['الشريعة','الآجري','عقيدة وسنة','المصنفات'],['الأربعون النووية','يحيى بن شرف النووي','أربعون','مجاميع حديثية'],['الأذكار','يحيى بن شرف النووي','أذكار','مجاميع حديثية']];
+let paperResults=[],selectedBooks=new Set(),selectedPapers=new Set();
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function showTab(id,btn){['hadith','corpus','books','papers','ulum','sitesTab','agent','registry','dossier','about'].forEach(x=>document.getElementById('tab-'+x).hidden=x!==id);document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');try{localStorage.setItem('hadith_active_tab',id)}catch(e){}}
+function buildSiteUrl(site,q){
+  q=(q||'').trim();
+  if(!q)return site.url;
+  const enc=encodeURIComponent(q);
+  if(site.name.includes('الدرر'))return 'https://dorar.net/hadith/search?q='+enc;
+  if(site.name.includes('Sunnah.com'))return 'https://sunnah.com/search?q='+enc;
+  if(site.name.includes('إسلام ويب'))return 'https://www.islamweb.net/ar/search/index.php?query='+enc;
+  if(site.name.includes('الوقفية'))return 'https://www.google.com/search?q='+encodeURIComponent('site:waqfeya.net '+q);
+  if(site.name.includes('الشاملة'))return 'https://www.google.com/search?q='+encodeURIComponent('site:shamela.ws '+q);
+  if(site.name.includes('أرشيف الإنترنت'))return 'https://archive.org/search?query='+enc;
+  if(site.name.includes('OpenAlex'))return 'https://openalex.org/works?search='+enc;
+  if(site.name.includes('Crossref'))return 'https://search.crossref.org/?q='+enc;
+  return site.url;
+}
+function renderSites(){
+  const q=(document.getElementById('siteSearchQ')?.value||'').trim();
+  document.getElementById('sites').innerHTML=sites.map(s=>'<article class="card"><h3>'+esc(s.name)+'</h3><div class="meta">'+esc(s.type)+'</div><p>'+esc(s.desc)+'</p><div class="mini-note">'+(q?'سيُفتح البحث بالعبارة: «'+esc(q)+'»':'أدخل عبارة للبحث الموحد في البوابات')+'</div><a target="_blank" rel="noopener" href="'+buildSiteUrl(s,q)+'">'+(q?'بحث في المصدر ↗':'فتح المصدر ↗')+'</a></article>').join('')
+}
+function initCats(){let cats=[...new Set(books.map(x=>x[3]))];document.getElementById('cat').innerHTML='<option value="all">كل التصنيفات</option>'+cats.map(x=>'<option>'+esc(x)+'</option>').join('')}
+function normalizeArabic(s){return String(s??'').toLowerCase().replace(/[إأآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/[ؤئ]/g,'ء').trim()}
+function categoryMatch(text,cat){
+  if(cat==='all')return true;
+  const t=normalizeArabic(text),c=normalizeArabic(cat);
+  if(t.includes(c))return true;
+  const aliases={'الكتب التسعة':['كتب التسعة','الصحيحان','سنن','موطأ','مسند'],'الجرح والتعديل':['رجال','جرح','تعديل','تهذيب','تقريب','ميزان','كاشف','ثقات'],'علوم الحديث':['علل','علوم الحديث'],'المسانيد والجوامع':['مسند','معجم','جامع'],'السنن والجوامع':['سنن','جامع'],'مجاميع حديثية':['مجاميع','منتقى','زوائد','شمائل','رياض'],'صحاح ومجاميع':['صحيح','مستدرك','مجاميع'],'المصنفات':['مصنف'],'المسانيد':['مسند'],'باقي المجموعات':['سنة','شرح','تصحيح','ضعيف']};
+  return (aliases[cat]||[]).some(a=>t.includes(normalizeArabic(a)))
+}
+let externalBookResults=[],bookSearchState={q:'',cat:'all',status:''};
+
+function renderBooks(){
+  const cat=document.getElementById('cat').value,f=normalizeArabic(document.getElementById('filter').value),sort=document.getElementById('bookSort')?.value||'title',view=document.getElementById('bookView')?.value||'all';
+  if(f){
+    const local=books.map((x,i)=>Object.assign([...x],{i})).filter(x=>categoryMatch(x.join(' '),cat)&&normalizeArabic(x.join(' ')).includes(f)&&(view==='all'||selectedBooks.has(x.i)));
+    const ext=externalBookResults.filter(x=>categoryMatch((x.title+' '+x.author+' '+x.subject),cat));
+    document.getElementById('count').textContent='نتائج «'+document.getElementById('filter').value+'»: '+(local.length+ext.length)+' · '+(cat==='all'?'جميع التصنيفات':cat);
+    renderBookSearchResults(local,document.getElementById('filter').value,ext,bookSearchState.status||'');
+    updateBookSelected();
+    return;
+  }
+  let arr=books.map((x,i)=>Object.assign([...x],{i})).filter(x=>categoryMatch(x.join(' '),cat)&&(view==='all'||selectedBooks.has(x.i)));
+  arr.sort((a,b)=>String(a[sort==='title'?0:sort==='author'?1:3]).localeCompare(String(b[sort==='title'?0:sort==='author'?1:3]),'ar'));
+  document.getElementById('count').textContent='إظهار '+arr.length+' من '+books.length+' مصدرًا مفهرسًا · '+(cat==='all'?'جميع التصنيفات':cat);
+  document.getElementById('books').innerHTML=arr.length?arr.map(x=>'<article class="card"><h3>'+esc(x[0])+'</h3><div class="meta">'+esc(x[1])+'</div><div><span class="tag">'+esc(x[2])+'</span><span class="tag">'+esc(x[3])+'</span></div><div class="checkrow"><input type="checkbox" '+(selectedBooks.has(x.i)?'checked':'')+' onchange="toggleBook('+x.i+',this.checked)"><span>إضافة إلى التصدير</span></div><div class="book-tools"><button class="alt" onclick="copyBookWithMenu('+x.i+')">📋 نسخ التوثيق</button><a class="result-link" style="padding:8px 10px" target="_blank" rel="noopener" href="https://www.google.com/search?q='+encodeURIComponent('"'+x[0]+'" '+x[1]+' حديث')+'">البحث عن المصدر ↗</a></div></article>').join(''):'<div class="empty">لا توجد مصادر مطابقة.</div>';
+  updateBookSelected();
+}
+function searchBooks(){
+  const q=document.getElementById('filter').value.trim(),cat=document.getElementById('cat').value,box=document.getElementById('books');
+  bookSearchState={q,cat,status:''};
+  if(!q){externalBookResults=[];renderBooks();box?.scrollIntoView({behavior:'smooth',block:'start'});return}
+  const local=books.map((x,i)=>Object.assign([...x],{i})).filter(x=>categoryMatch(x.join(' '),cat)&&normalizeArabic(x.join(' ')).includes(normalizeArabic(q)));
+  externalBookResults=[];
+  bookSearchState.status='جارٍ البحث في المصدر المفتوح…';
+  renderBookSearchResults(local,q,[],bookSearchState.status);
+  box?.scrollIntoView({behavior:'smooth',block:'start'});
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);
+  fetch('https://openlibrary.org/search.json?q='+encodeURIComponent(q)+'&limit=40&fields=key,title,author_name,first_publish_year,publisher,isbn,subject',{signal:controller.signal,mode:'cors',cache:'no-store'})
+  .then(res=>{clearTimeout(timer);if(!res.ok)throw new Error('HTTP '+res.status);return res.json()})
+  .then(data=>{externalBookResults=(data.docs||[]).map((x,i)=>({ext:true,i,title:x.title||'بدون عنوان',author:(x.author_name||[]).slice(0,5).join('؛ '),year:x.first_publish_year||'',publisher:(x.publisher||[])[0]||'',isbn:(x.isbn||[])[0]||'',subject:(x.subject||[]).slice(0,8).join('؛ '),key:x.key||''}));bookSearchState.status=externalBookResults.length?'تم جلب النتائج المفتوحة.':'لم يعثر المصدر المفتوح على نتائج.';renderBooks()})
+  .catch(()=>{clearTimeout(timer);externalBookResults=[];bookSearchState.status='تعذر الوصول إلى المصدر المفتوح حاليًا؛ عُرضت نتائج الفهرس المحلي فقط.';renderBooks()});
+}
+function renderBookSearchResults0(local,q,extList,statusText=''){
+  const box=document.getElementById('books');
+  const localHtml=local.map(x=>'<article class="card"><h3>'+esc(x[0])+'</h3><div class="meta">'+esc(x[1])+' — فهرس المنصة</div><div><span class="tag">'+esc(x[2])+'</span><span class="tag">'+esc(x[3])+'</span></div><div class="book-tools"><button class="alt" onclick="copyBookWithMenu('+x.i+')">📋 نسخ التوثيق</button><a class="result-link" style="padding:8px 10px" target="_blank" rel="noopener" href="https://openlibrary.org/search?q='+encodeURIComponent(x[0]+' '+x[1])+'">عرض في Open Library ↗</a></div></article>').join('');
+  const extHtml=extList.map(x=>'<article class="card"><h3>'+esc(x.title)+'</h3><div class="meta">'+esc(x.author||'المؤلف غير مفهرس')+' — Open Library</div><div><span class="tag">'+esc(x.year||'السنة غير متاحة')+'</span>'+(x.publisher?'<span class="tag">'+esc(x.publisher)+'</span>':'')+'</div><p class="mini-note">'+(x.subject?'موضوعات: '+esc(x.subject):'')+(x.isbn?' · ISBN: '+esc(x.isbn):'')+'</p><div class="book-tools"><a class="result-link" style="padding:8px 10px" target="_blank" rel="noopener" href="https://openlibrary.org'+esc(x.key)+'">فتح السجل ↗</a><button class="alt" onclick="copyExternalBookCitation('+x.i+')">📋 نسخ التوثيق</button></div></article>').join('');
+  box.innerHTML='<div class="result-panel" style="grid-column:1/-1"><h3>نتائج البحث: «'+esc(q)+'»</h3><div class="mini-note">'+esc(statusText)+'</div><div class="mini-note">الفهرس المحلي: '+local.length+' · المصدر المفتوح: '+extList.length+' · التصنيف: '+(document.getElementById('cat').value==='all'?'جميع التصنيفات':esc(document.getElementById('cat').value))+'</div></div>'+((localHtml||extHtml)?localHtml+extHtml:'<div class="empty">لم تُعثر على نتائج.</div>');
+}
+function copyExternalBookCitation(i){const x=externalBookResults[i];if(!x)return;copyText((x.author||'مؤلف غير محدد')+' ('+(x.year||'د.ت.')+'). '+x.title+'. '+(x.publisher||'بيانات الناشر غير متاحة')+'. Open Library. '+(x.key?'https://openlibrary.org'+x.key:''))}
+function showAllBooks(){externalBookResults=[];bookSearchState={q:'',cat:'all',status:''};document.getElementById('filter').value='';document.getElementById('cat').value='all';document.getElementById('bookView').value='all';renderBooks()}
+function clearBookSearch(){externalBookResults=[];bookSearchState={q:'',cat:document.getElementById('cat').value,status:''};document.getElementById('filter').value='';renderBooks()}
+function setBookSelectionView(v){document.getElementById('bookView').value=v;renderBooks()}
+function toggleBook(i,on){on?selectedBooks.add(i):selectedBooks.delete(i);updateBookSelected()}
+function updateBookSelected(){document.getElementById('bookSelected').textContent=selectedBooks.size+' محدد'}
+function selectAllBooks(on){let cat=document.getElementById('cat').value,f=normalizeArabic(document.getElementById('filter').value);books.forEach((x,i)=>{if(categoryMatch(x.join(' '),cat)&&(!f||normalizeArabic(x.join(' ')).includes(f))){on?selectedBooks.add(i):selectedBooks.delete(i)}});renderBooks()}
+function download(name,text,mime){let blob=new Blob([text],{type:mime+';charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+function csv(rows){return '\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n')}
+function accessDate(){return new Date().toLocaleDateString('ar-LY')} function citationBook(x,style='apa'){const a=x[1],t=x[0],k=x[2],c=x[3];if(style==='mla')return a+'. '+t+'. مصدر حديثي. '+c+'. Web. '+accessDate()+'.';if(style==='chicago')return a+'. '+t+'. مصدر حديثي، '+c+'. تاريخ الاطلاع '+accessDate()+'.';if(style==='harvard')return a+' ('+accessDate()+'). '+t+'. مصدر حديثي، '+c+'.';return a+'. ('+accessDate()+'). '+t+'. مصدر حديثي. تصنيف: '+k+'.'} function copyText(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text).then(()=>alert('تم نسخ المحتوى مع التوثيق.'));const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();alert('تم نسخ المحتوى مع التوثيق.')} function copyBook(i,style='apa'){const x=books[i];copyText('المصدر: '+x[0]+' — '+x[1]+'\nالنوع: '+x[2]+'\nالتصنيف: '+x[3]+'\n\nالتوثيق ('+style.toUpperCase()+'): '+citationBook(x,style))} function copyBookWithMenu(i){const s=prompt('اختر نظام التوثيق: APA / MLA / Chicago / Harvard','APA');if(!s)return;const k=s.trim().toLowerCase();copyBook(i,k==='mla'?'mla':k==='chicago'?'chicago':k==='harvard'?'harvard':'apa')}
+function exportSelectedBooks(kind){let ids=[...selectedBooks];if(!ids.length)return alert('حدد مصدرًا واحدًا على الأقل.');if(kind==='csv')download('مصادر-حديثية.csv',csv([['المؤلف','العنوان','النوع','التصنيف','الاستشهاد']].concat(ids.map(i=>{let x=books[i];return [x[1],x[0],x[2],x[3],citationBook(x)]}))),'text/csv');else if(kind==='ris')download('مصادر-حديثية.ris',ids.map(i=>{let x=books[i];return 'TY  - BOOK\nAU  - '+x[1]+'\nTI  - '+x[0]+'\nKW  - '+x[2]+'\nER  -\n'}).join('\n'),'application/x-research-info-systems');else download('استشهاد-مصادر-حديثية.txt',ids.map(i=>citationBook(books[i])).join('\n\n'),'text/plain')}
+function setQ(v){document.getElementById('q').value=v;searchHadith()}
+function buildHadithQuery(){
+  const q=document.getElementById('q').value.trim(),from=document.getElementById('hFrom').value.trim(),to=document.getElementById('hTo').value.trim(),type=document.getElementById('hType').value,grade=document.getElementById('hGrade').value;
+  if(from&&to&&Number(from)>Number(to))return{error:'سنة البداية لا يجوز أن تتجاوز سنة النهاية.'};
+  if((from&&!/^[-]?\d{1,4}$/.test(from))||(to&&!/^[-]?\d{1,4}$/.test(to)))return{error:'أدخل السنوات بصيغة رقمية صحيحة.'};
+  const parts=[];if(q)parts.push(q);if(type&&type!=='كل المواد')parts.push(type);if(grade&&grade!=='كل الأحكام')parts.push(grade);if(from&&to)parts.push('بين '+from+' و'+to);else if(from)parts.push('من '+from);else if(to)parts.push('حتى '+to);
+  return{q,from,to,type,grade,query:parts.join(' ')}
+}
+function hadithSourceUrl(site,q){const enc=encodeURIComponent(q);return{dorar:'https://dorar.net/hadith/search?q='+enc,sunnah:'https://sunnah.com/search?q='+enc,islamweb:'https://www.islamweb.net/ar/search/index.php?query='+enc,waqfeya:'https://www.google.com/search?q='+encodeURIComponent('site:waqfeya.net '+q)}[site]}
+async function searchHadith(){
+  const s=buildHadithQuery(),box=document.getElementById('hadithResults');if(s.error){box.hidden=false;box.innerHTML='<div class="note">'+esc(s.error)+'</div>';return}
+  if(!s.q){box.hidden=false;box.innerHTML='<div class="note"><strong>أدخل عبارة البحث أولًا.</strong><br>يمكنك بعدها تحديد المصدر والحكم والنوع والفترة.</div>';return}
+  const selected=document.getElementById('site').value,siteName=document.getElementById('site').selectedOptions[0]?.textContent||selected;box.hidden=false;
+  let localHtml='';
+  const lr=await runLocalSearch(s.q,Object.keys(corpusState.meta),12);localHtml=lr.html;
+  box.innerHTML=localHtml+'<h3>نتيجة إعداد الاستعلام</h3><div class="mini-note">المنصة لا تصدر حكمًا حديثيًا بنفسها. الفلاتر تُضاف إلى الاستعلام لتضييق البحث في المصدر المختار، ثم يتحقق الباحث من النص والموضع والحكم من المصدر الأصلي.</div><p><b>الاستعلام:</b> '+esc(s.query)+'</p><div class="result-links"><a class="result-link" target="_blank" rel="noopener" href="'+hadithSourceUrl(selected,s.query)+'"><strong>'+esc(siteName)+'</strong><small>فتح صفحة البحث في المصدر</small></a></div>'+verifyPathHtml()
+}
+function openAllHadithSources(){
+  const s=buildHadithQuery(),box=document.getElementById('hadithResults');if(s.error){box.hidden=false;box.innerHTML='<div class="note">'+esc(s.error)+'</div>';return}if(!s.q){box.hidden=false;box.innerHTML='<div class="note">أدخل عبارة البحث أولًا.</div>';return}
+  const list=[['dorar','الموسوعة الحديثية — الدرر السنية'],['sunnah','Sunnah.com'],['islamweb','إسلام ويب'],['waqfeya','المكتبة الوقفية']];box.hidden=false;
+  box.innerHTML='<h3>مصادر البحث المفتوحة</h3><div class="mini-note">روابط مستقلة للمقارنة بين المصادر؛ وجود النتيجة في مصدر لا يعني اعتمادها حكمًا نهائيًا.</div><div class="result-links">'+list.map(x=>'<a class="result-link" target="_blank" rel="noopener" href="'+hadithSourceUrl(x[0],s.query)+'"><strong>'+x[1]+'</strong><small>البحث بالاستعلام نفسه</small></a>').join('')+'</div>'
+}
+function copyHadithQuery(){const s=buildHadithQuery();if(s.error)return alert(s.error);if(!s.q)return alert('أدخل عبارة البحث أولًا.');copyText('استعلام البحث الحديثي: '+s.query)}
+function clearHadithSearch(){['q','hFrom','hTo'].forEach(id=>document.getElementById(id).value='');document.getElementById('hType').selectedIndex=0;document.getElementById('hGrade').selectedIndex=0;const box=document.getElementById('hadithResults');box.hidden=true;box.innerHTML=''}
+
+function reconstructAbstract(inv){if(!inv||typeof inv!=='object')return '';const words=[];Object.entries(inv).forEach(([word,pos])=>(Array.isArray(pos)?pos:[pos]).forEach(p=>{if(Number.isInteger(p))words[p]=word}));return words.filter(Boolean).slice(0,300).join(' ')}
+async function searchPapers(){let q=document.getElementById('paperQ').value.trim();if(!q)return;let from=Number(document.getElementById('pFrom').value)||1900,to=Number(document.getElementById('pTo').value)||new Date().getFullYear(),n=Math.min(100,Math.max(1,Number(document.getElementById('pCount').value)||20)),lang=document.getElementById('pLang').value;if(from>to)return alert('تحقق من الفترة الزمنية: سنة البداية يجب ألا تتجاوز سنة النهاية.');document.getElementById('papers').innerHTML='<div class="loading">جارٍ البحث في OpenAlex...</div>';let filter='from_publication_date:'+from+'-01-01,to_publication_date:'+to+'-12-31';if(lang)filter+=',language:'+lang;try{let u='https://api.openalex.org/works?search='+encodeURIComponent(q)+'&filter='+encodeURIComponent(filter)+'&per-page='+n;let controller=new AbortController();let timer=setTimeout(()=>controller.abort(),12000);let res=await fetch(u,{signal:controller.signal});clearTimeout(timer);if(!res.ok)throw new Error('HTTP '+res.status);let data=await res.json();paperResults=(data.results||[]).map((x,i)=>({i,title:x.title||'',year:x.publication_year||'',doi:x.doi||'',url:x.primary_location?.landing_page_url||x.id||'',journal:x.primary_location?.source?.display_name||'',authors:(x.authorships||[]).slice(0,8).map(a=>a.author?.display_name).filter(Boolean).join('؛ '),openAccess:x.open_access?.is_oa?'مفتوح':'',abstract:reconstructAbstract(x.abstract_inverted_index)}));selectedPapers=new Set();renderPapers()}catch(e){document.getElementById('papers').innerHTML='<div class="note"><strong>تعذر الوصول إلى OpenAlex حاليًا.</strong><br>المنصة نفسها تعمل، ويمكنك إعادة المحاولة أو فتح OpenAlex مباشرة. السبب: '+esc(e.name==='AbortError'?'انتهت مهلة الاتصال':'تعذر الاتصال بالمصدر')+'</div>'}}
+function renderPapers0(){document.getElementById('papers').innerHTML=paperResults.length?paperResults.map(x=>'<article class="card paper"><div class="title">'+esc(x.title)+'</div><div class="meta">'+esc(x.authors||'مؤلفون غير متاحين')+' — '+esc(x.year||'د.ت.')+' — '+esc(x.journal||'دورية غير محددة')+(x.openAccess?' — '+x.openAccess:'')+'</div><p class="abstract">'+esc(x.abstract||'لا يوجد ملخص مفهرس في المصدر.')+'</p><div class="checkrow"><input type="checkbox" '+(selectedPapers.has(x.i)?'checked':'')+' onchange="togglePaper('+x.i+',this.checked)"><span>إضافة إلى التصدير</span></div><div class="copy-row"><a class="result-link" style="padding:8px 10px" target="_blank" rel="noopener" href="'+esc(x.url)+'">فتح الدراسة ↗</a><button class="alt" onclick="copyPaperWithMenu('+x.i+')">📋 نسخ التوثيق</button></div></article>').join(''):'<div class="empty">لا توجد نتائج مطابقة. جرّب عبارة أخرى أو وسّع الفترة الزمنية.</div>';document.getElementById('paperSelected').textContent=selectedPapers.size+' محدد'}
+function togglePaper(i,on){on?selectedPapers.add(i):selectedPapers.delete(i);document.getElementById('paperSelected').textContent=selectedPapers.size+' محدد'}
+function selectAllPapers(on){paperResults.forEach(x=>on?selectedPapers.add(x.i):selectedPapers.delete(x.i));renderPapers()}
+function citationPaper(x,style='apa'){const a=x.authors||'مؤلف غير محدد',y=x.year||'د.ت.',t=x.title||'بدون عنوان',j=x.journal||'دورية غير محددة';if(style==='mla')return a+'. &quot;'+t+'&quot; '+j+', '+y+'. '+x.url;if(style==='chicago')return a+'. &quot;'+t+'&quot; '+j+' ('+y+'). '+(x.doi||x.url)+'.';if(style==='harvard')return a+' ('+y+'). '+t+'. '+j+'. '+(x.doi||x.url)+'.';return a+'. ('+y+'). '+t+'. '+j+'.'+(x.doi?' https://doi.org/'+x.doi.replace('https://doi.org/',''):' '+x.url)} function copyPaper(i,style='apa'){const x=paperResults[i];copyText('عنوان الدراسة: '+x.title+'\nالمؤلفون: '+(x.authors||'غير متاح')+'\nالسنة: '+(x.year||'د.ت.')+'\nالمجلة: '+(x.journal||'غير محددة')+'\nالرابط: '+x.url+'\n\nالتوثيق ('+style.toUpperCase()+'): '+citationPaper(x,style))}
+function copySelectedPapersCitations(){const arr=paperResults.filter(x=>selectedPapers.has(x.i));if(!arr.length)return alert('حدد ورقة واحدة على الأقل.');copyText(arr.map(x=>citationPaper(x)).join('\n\n'))}
+function copySelectedBooksCitations(){const arr=books.filter((x,i)=>selectedBooks.has(i));if(!arr.length)return alert('حدد مصدرًا واحدًا على الأقل.');copyText(arr.map(x=>citationBook(x)).join('\n\n'))} function copyPaperWithMenu(i){const s=prompt('اختر نظام التوثيق: APA / MLA / Chicago / Harvard','APA');if(!s)return;const k=s.trim().toLowerCase();copyPaper(i,k==='mla'?'mla':k==='chicago'?'chicago':k==='harvard'?'harvard':'apa')}
+function exportSelectedPapers(kind){let arr=paperResults.filter(x=>selectedPapers.has(x.i));if(!arr.length)return alert('حدد ورقة واحدة على الأقل.');if(kind==='csv')download('الدراسات-الحديثية.csv',csv([['المؤلفون','العنوان','السنة','المجلة','DOI','الرابط','الاستشهاد']].concat(arr.map(x=>[x.authors,x.title,x.year,x.journal,x.doi,x.url,citationPaper(x)]))),'text/csv');else if(kind==='ris')download('الدراسات-الحديثية.ris',arr.map(x=>'TY  - JOUR\nAU  - '+(x.authors||'')+'\nTI  - '+x.title+'\nPY  - '+x.year+'\nJO  - '+(x.journal||'')+(x.doi?'\nDO  - '+x.doi:'')+'\nUR  - '+x.url+'\nER  -\n').join('\n'),'application/x-research-info-systems');else if(kind==='bib')download('الدراسات-الحديثية.bib',arr.map((x,i)=>'@article{hadith_'+x.year+'_'+i+',\n  author={'+x.authors+'},\n  title={'+x.title+'},\n  year={'+x.year+'},\n  journal={'+(x.journal||'')+'},\n  doi={'+x.doi+'},\n  url={'+x.url+'}\n}\n').join('\n'),'application/x-bibtex');else download('استشهاد-الدراسات.txt',arr.map(citationPaper).join('\n\n'),'text/plain')}
+/* ================== المدونة الحديثية المحلية (IndexedDB) ================== */
+const HADITH_EDITIONS=[
+{code:'bukhari',arName:'صحيح البخاري',count:7589},
+{code:'muslim',arName:'صحيح مسلم',count:7563},
+{code:'abudawud',arName:'سنن أبي داود',count:5274},
+{code:'tirmidhi',arName:'جامع الترمذي',count:3998},
+{code:'nasai',arName:'سنن النسائي',count:5765},
+{code:'ibnmajah',arName:'سنن ابن ماجه',count:4343},
+{code:'malik',arName:'موطأ مالك',count:1858},
+{code:'nawawi',arName:'الأربعون النووية',count:42},
+{code:'qudsi',arName:'الأربعون القدسية',count:40},
+{code:'dehlawi',arName:'الأربعون الدهلوية',count:40}
+];
+const corpusState={meta:{},memory:{},byUid:{},progress:{}};
+let editionsListCache=null;
+
+function bookArName(code){return (HADITH_EDITIONS.find(e=>e.code===code)||{}).arName||code}
+
+function openHadithDB(){
+  if(window.__hadithDBPromise)return window.__hadithDBPromise;
+  const p=new Promise((resolve,reject)=>{
+    if(!('indexedDB' in window))return reject(new Error('لا يدعم هذا المتصفح التخزين المحلي (IndexedDB).'));
+    const req=indexedDB.open('hadithPlatformDB',1);
+    req.onupgradeneeded=e=>{const db=e.target.result;
+      if(!db.objectStoreNames.contains('hadiths')){const store=db.createObjectStore('hadiths',{keyPath:'uid'});store.createIndex('book','book',{unique:false})}
+      if(!db.objectStoreNames.contains('meta')){db.createObjectStore('meta',{keyPath:'book'})}
+    };
+    req.onsuccess=e=>resolve(e.target.result);
+    req.onerror=e=>reject(e.target.error);
+  });
+  window.__hadithDBPromise=p;
+  p.catch(()=>{window.__hadithDBPromise=null});
+  return p;
+}
+async function idbPutHadiths(book,rows){
+  const db=await openHadithDB();
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(['hadiths','meta'],'readwrite');
+    const store=tx.objectStore('hadiths');
+    rows.forEach(r=>store.put(r));
+    tx.objectStore('meta').put({book,count:rows.length,importedAt:Date.now()});
+    tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);
+  });
+}
+async function idbGetMeta(){
+  const db=await openHadithDB();
+  return new Promise((resolve,reject)=>{const tx=db.transaction('meta','readonly'),req=tx.objectStore('meta').getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});
+}
+async function idbGetAll(book){
+  const db=await openHadithDB();
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction('hadiths','readonly'),idx=tx.objectStore('hadiths').index('book');
+    const req=idx.getAll(IDBKeyRange.only(book));
+    req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error);
+  });
+}
+async function idbClearBook(book){
+  const db=await openHadithDB();
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(['hadiths','meta'],'readwrite');
+    const idx=tx.objectStore('hadiths').index('book');
+    const cReq=idx.openCursor(IDBKeyRange.only(book));
+    cReq.onsuccess=e=>{const cur=e.target.result;if(cur){cur.delete();cur.continue()}};
+    tx.objectStore('meta').delete(book);
+    tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);
+  });
+}
+
+async function fetchJsonWithProgress(urls,onProgress){
+  let lastErr;
+  for(const url of urls){
+    try{
+      const res=await fetch(url,{cache:'no-store'});
+      if(!res.ok){lastErr=new Error('HTTP '+res.status);continue}
+      const total=Number(res.headers.get('content-length'))||0;
+      if(!res.body||!total){const data=await res.json();onProgress(1);return data}
+      const reader=res.body.getReader();let received=0;const chunks=[];
+      while(true){const {done,value}=await reader.read();if(done)break;chunks.push(value);received+=value.length;onProgress(Math.min(0.99,received/total))}
+      const text=await new Blob(chunks).text();onProgress(1);return JSON.parse(text);
+    }catch(e){lastErr=e}
+  }
+  throw lastErr||new Error('تعذر الوصول إلى مصدر البيانات');
+}
+async function loadEditionsList(){
+  if(editionsListCache)return editionsListCache;
+  try{
+    editionsListCache=await fetchJsonWithProgress([
+      'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions.min.json',
+      'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions.json',
+      'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1/editions.min.json',
+      'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1/editions.json'
+    ],()=>{});
+  }catch(e){editionsListCache={}}
+  return editionsListCache;
+}
+async function resolveEditionSlug(code){
+  const preferred='ara-'+code;
+  try{
+    const list=await loadEditionsList();
+    const keys=Array.isArray(list)?list.map(x=>x.name||x.identifier||x):Object.keys(list||{});
+    if(keys.includes(preferred))return preferred;
+    const alt=keys.find(k=>/^ara-/.test(k)&&k.includes(code));
+    if(alt)return alt;
+  }catch(e){}
+  return preferred;
+}
+
+function setCorpusStatus(code,phase,pct,msg){corpusState.progress[code]={phase,pct,msg};renderCorpusBooks()}
+
+async function importBook(code){
+  const ed=HADITH_EDITIONS.find(x=>x.code===code);if(!ed)return;
+  setCorpusStatus(code,'downloading',0);
+  try{
+    const slug=await resolveEditionSlug(code);
+    const urls=[
+      'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/'+slug+'.min.json',
+      'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/'+slug+'.json',
+      'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1/editions/'+slug+'.min.json',
+      'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1/editions/'+slug+'.json'
+    ];
+    const data=await fetchJsonWithProgress(urls,p=>setCorpusStatus(code,'downloading',p));
+    const list=data.hadiths||[];
+    if(!list.length)throw new Error('لم يتضمن الملف المصدر أي أحاديث.');
+    setCorpusStatus(code,'storing',0.99);
+    const rows=list.map(h=>({uid:(code+'-'+h.hadithnumber).replace(/[^\w.\-]/g,'_'),book:code,hadithnumber:h.hadithnumber,arabicnumber:h.arabicnumber,text:String(h.text||'').trim(),grades:h.grades||[],refBook:h.reference?h.reference.book:null,refHadith:h.reference?h.reference.hadith:null}));
+    await idbPutHadiths(code,rows);
+    corpusState.memory[code]=rows;rows.forEach(r=>corpusState.byUid[r.uid]=r);
+    corpusState.meta[code]={count:rows.length,importedAt:Date.now()};
+    setCorpusStatus(code,'done',1);
+  }catch(e){
+    setCorpusStatus(code,'error',0,e.message||'تعذر الاستيراد، تحقق من الاتصال بالإنترنت.');
+  }
+  renderCorpusBooks();updateCorpusStats();refreshCorpusBookFilter();
+}
+async function reimportBook(code){await idbClearBook(code);delete corpusState.meta[code];delete corpusState.memory[code];await importBook(code)}
+async function removeBook(code){
+  if(!confirm('حذف '+bookArName(code)+' من التخزين المحلي؟'))return;
+  await idbClearBook(code);delete corpusState.meta[code];delete corpusState.memory[code];
+  renderCorpusBooks();updateCorpusStats();refreshCorpusBookFilter();searchCorpus();
+}
+async function initCorpus(){
+  try{const rows=await idbGetMeta();rows.forEach(m=>corpusState.meta[m.book]={count:m.count,importedAt:m.importedAt})}catch(e){}
+  renderCorpusBooks();updateCorpusStats();refreshCorpusBookFilter();
+}
+function updateCorpusStats(){
+  const books=Object.keys(corpusState.meta);const total=books.reduce((s,b)=>s+(corpusState.meta[b].count||0),0);
+  const elB=document.getElementById('statImported'),elH=document.getElementById('statHadiths');
+  if(elB)elB.textContent=books.length;if(elH)elH.textContent=total;
+}
+function refreshCorpusBookFilter(){
+  const sel=document.getElementById('corpusBookFilter');if(!sel)return;const cur=sel.value;
+  sel.innerHTML=['<option value="all">كل الكتب المستوردة</option>'].concat(HADITH_EDITIONS.filter(ed=>corpusState.meta[ed.code]).map(ed=>'<option value="'+ed.code+'">'+esc(ed.arName)+'</option>')).join('');
+  if([...sel.options].some(o=>o.value===cur))sel.value=cur;
+}
+function renderCorpusBooks(){
+  const box=document.getElementById('corpusBooks');if(!box)return;
+  box.innerHTML=HADITH_EDITIONS.map(ed=>{
+    const meta=corpusState.meta[ed.code],prog=corpusState.progress[ed.code];
+    let statusHtml;
+    if(meta)statusHtml='<span class="badge ok">مستورد: '+meta.count+' حديثًا</span>';
+    else if(prog&&prog.phase==='downloading')statusHtml='<span class="badge pending">جارٍ التحميل…</span><div class="progress"><i style="width:'+Math.round(prog.pct*100)+'%"></i></div>';
+    else if(prog&&prog.phase==='storing')statusHtml='<span class="badge pending">جارٍ الحفظ محليًا…</span>';
+    else if(prog&&prog.phase==='error')statusHtml='<span class="badge err">تعذر الاستيراد</span><div class="mini-note">'+esc(prog.msg||'')+'</div>';
+    else statusHtml='<span class="badge pending">غير مستورد بعد</span>';
+    const busy=prog&&(prog.phase==='downloading'||prog.phase==='storing');
+    const actions=meta
+      ?('<button class="alt" '+(busy?'disabled':'')+' onclick="reimportBook(\''+ed.code+'\')">↺ إعادة الاستيراد</button><button class="alt" onclick="removeBook(\''+ed.code+'\')">🗑 حذف</button>')
+      :('<button '+(busy?'disabled':'')+' onclick="importBook(\''+ed.code+'\')">⬇ استيراد وتخزين محليًا</button>');
+    return '<article class="corpus-card"><h3>'+esc(ed.arName)+'</h3><div class="meta">~'+ed.count+' حديثًا · نص عربي بالتشكيل</div>'+statusHtml+'<div class="book-tools">'+actions+'</div></article>';
+  }).join('');
+}
+async function getBookRows(code){
+  if(corpusState.memory[code])return corpusState.memory[code];
+  const rows=await idbGetAll(code);
+  corpusState.memory[code]=rows;rows.forEach(r=>corpusState.byUid[r.uid]=r);
+  return rows;
+}
+function renderHadithCard0(r){
+  const grades=(r.grades||[]).map(g=>'<span class="grade-chip">'+esc(g.name)+': '+esc(g.grade)+'</span>').join('');
+  return '<article class="hadith-card"><div class="meta">'+esc(bookArName(r.book))+' — رقم '+esc(r.arabicnumber||r.hadithnumber)+(r.refBook?(' · كتاب '+esc(r.refBook)+' حديث '+esc(r.refHadith)):'')+'</div><div class="hadith-text">'+esc(dtext(r.text))+'</div>'+(grades?'<div class="grade-row">'+grades+'</div>':'')+'<div class="book-tools"><button class="alt" onclick="copyHadithText(\''+String(r.uid).replace(/[^\w.\-]/g,'_')+'\')">📋 نسخ النص</button><button class="alt" onclick="copyHadithCitation(\''+String(r.uid).replace(/[^\w.\-]/g,'_')+'\')">📋 نسخ التوثيق</button></div></article>';
+}
+function citationHadith(r){
+  const gradeTxt=(r.grades&&r.grades.length)?(' — الحكم المنقول: '+r.grades.map(g=>g.name+': '+g.grade).join('؛ ')):'';
+  return bookArName(r.book)+'، حديث رقم '+(r.arabicnumber||r.hadithnumber)+'. مصدر النص: Hadith API (fawazahmed0/hadith-api، بيانات عامة الملكية). تاريخ الاطلاع: '+accessDate()+'.'+gradeTxt;
+}
+function copyHadithText(uid){const r=corpusState.byUid[uid];if(r)copyText(r.text)}
+function copyHadithCitation(uid){const r=corpusState.byUid[uid];if(r)copyText(r.text+'\n\nالتوثيق: '+citationHadith(r))}
+
+/* ================== علوم الحديث ================== */
+const ULUM_TERMS=[
+['الحديث','كل ما أُضيف إلى النبي ﷺ من قول أو فعل أو تقرير أو صفة.'],
+['السنة','عند المحدثين مرادفة للحديث غالبًا، وتُطلق أيضًا على الطريقة المتوارثة عن النبي ﷺ.'],
+['الإسناد (السند)','سلسلة الرواة الذين نقلوا المتن بعضهم عن بعض حتى ينتهوا إلى قائله.'],
+['المتن','نص الحديث الذي ينتهي إليه السند.'],
+['الراوي','من نقل الحديث بسنده، وتُدرس أحواله في علم الجرح والتعديل.'],
+['الحديث الصحيح','ما اتصل سنده بنقل العدل الضابط عن مثله إلى منتهاه، من غير شذوذ ولا علة قادحة.'],
+['الحديث الحسن','ما اتصل سنده بنقل عدل خفّ ضبطه عن مثله إلى منتهاه، من غير شذوذ ولا علة قادحة.'],
+['الحديث الضعيف','ما لم تجتمع فيه شروط الصحيح أو الحسن لفقد شرط أو أكثر من شروط القبول.'],
+['الحديث الموضوع','المكذوب المختلَق المنسوب إلى النبي ﷺ زورًا؛ وهو قسم مستقل عند كثير من المحققين لشدة نكارته.'],
+['المتواتر','ما رواه عدد كبير يستحيل تواطؤهم على الكذب عادةً في كل طبقات السند، وينتهي إلى أمر محسوس.'],
+['خبر الآحاد','ما لم يبلغ حدّ التواتر، وهو أكثر أقسام الحديث.'],
+['الحديث المرفوع','ما أُضيف إلى النبي ﷺ خاصة من قول أو فعل أو تقرير.'],
+['الحديث الموقوف','ما أُضيف إلى الصحابي من قول أو فعل ولم يُرفع إلى النبي ﷺ.'],
+['الحديث المقطوع','ما أُضيف إلى التابعي من قول أو فعل.'],
+['العنعنة','رواية الراوي بصيغة «عن فلان» دون تصريح بالسماع.'],
+['التدليس','إخفاء الراوي عيبًا في الإسناد كإسقاط راوٍ، بصيغة موهمة بالاتصال.'],
+['الجرح والتعديل','علم يبحث في أحوال الرواة عدالةً وضبطًا، يُوثَّق به الثقات ويُضعَّف به الضعفاء.'],
+['العلة (الحديث المعلَّل)','سبب خفي غامض يقدح في صحة الحديث مع أن ظاهر الإسناد السلامة منه.'],
+['الشاذ','ما رواه الثقة مخالفًا لمن هو أوثق منه أو أكثر عددًا.'],
+['المنكر','ما رواه الضعيف مخالفًا لرواية الثقة.'],
+['الحديث الغريب','ما تفرد بروايته راوٍ واحد في أصل السند أو في بعض طبقاته.'],
+['التخريج','عزو الحديث إلى مصادره الأصلية مع بيان درجته وذكر من أخرجه.'],
+['الحديث المرسل','ما رفعه التابعي إلى النبي ﷺ مباشرة مع إسقاط الصحابي من السند.']
+];
+function renderUlum(){const box=document.getElementById('ulumTerms');if(!box)return;box.innerHTML=ULUM_TERMS.map(t=>'<article class="term-card"><h3>'+esc(t[0])+'</h3><p>'+esc(t[1])+'</p></article>').join('')}
+
+/* ===== v3.1: تلوين المطابقات + عدّاد النتائج + مختبر التوثيق العلمي ===== */
+let HL_Q='',corpusRes={rows:[],shown:0};
+function hlRe(q,words){const n=normalizeArabic(q);if(!n)return null;const D='[\\u064B-\\u065F\\u0670\\u0640]*',M={'ا':'[اإأآٱ]','ه':'[هة]','ي':'[يى]','ء':'[ءؤئ]'};
+const one=c=>(M[c]||c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'))+D,w=n.split(/\s+/).filter(Boolean).map(x=>[...x].map(one).join(''));
+return new RegExp('('+(words?w.join('|'):w.join('\\s+'))+')','gi')}
+function hl(text){const re=hlRe(HL_Q,true);text=String(text??'');if(!re)return esc(text);return text.split(re).map((p,i)=>i%2?'<mark class="hl">'+esc(p)+'</mark>':esc(p)).join('')}
+function markDom(root,q,words){const re=hlRe(q,words);if(!re||!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('button,mark,input,textarea,select,script')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}),ns=[];
+while(w.nextNode())ns.push(w.currentNode);
+ns.forEach(n=>{const p=n.nodeValue.split(re);if(p.length<2)return;const f=document.createDocumentFragment();p.forEach((s,i)=>{if(!s)return;if(i%2){const m=document.createElement('mark');m.className='hl';m.textContent=s;f.appendChild(m)}else f.appendChild(document.createTextNode(s))});n.parentNode.replaceChild(f,n)})}
+function renderHadithCard(r){let s=renderHadithCard0(r);if(HL_Q)s=s.replace('<div class="hadith-text">'+esc(dtext(r.text))+'</div>','<div class="hadith-text">'+hl(dtext(r.text))+'</div>');
+return s.replace(/<\/article>\s*$/,'<div class="book-tools"><button class="alt" onclick="addRefHadith(\''+String(r.uid).replace(/[^\w.\-]/g,'_')+'\')">➕ إلى قائمة المراجع</button><button class="alt" onclick="dosAddLocal(\''+String(r.uid).replace(/[^\w.\-]/g,'_')+'\')">📁 إلى ملف البحث</button></div></article>')}
+function renderBookSearchResults(l,q,e,st){renderBookSearchResults0(l,q,e,st);markDom(document.getElementById('books'),q,true)}
+function renderPapers(){renderPapers0();markDom(document.getElementById('papers'),document.getElementById('paperQ').value,true)}
+async function localSearch(q,codes){const nq=normalizeArabic(q).trim(),ws=nq.split(/\s+/).filter(Boolean),re=hlRe(q,true),rows=[],per={};let occ=0;if(!ws.length)return{rows,per,occ};
+for(const c of codes){for(const r of await getBookRows(c)){const n=r._n||(r._n=normalizeArabic(r.text));if(ws.every(w=>n.includes(w))){r._ph=n.includes(nq)?1:0;rows.push(r);per[c]=(per[c]||0)+1;occ+=(r.text.match(re)||[]).length||1}}}
+rows.sort((a,b)=>b._ph-a._ph);return{rows,per,occ}}
+function banner(res,q){return '<div class="cnt-banner"><span class="cnt">'+res.rows.length+'</span> حديثًا مطابقًا · <span class="cnt">'+res.occ+'</span> موضعًا للكلمات «<mark class="hl">'+esc(q)+'</mark>»<div class="grade-row" style="margin-top:6px">'+Object.keys(res.per).map(c=>'<span class="grade-chip">'+esc(bookArName(c))+': '+res.per[c]+'</span>').join('')+'</div></div>'}
+async function runLocalSearch(q,codes,show){if(!codes.length)return{html:''};HL_Q=q;window.__lastQ=q;const res=await localSearch(q,codes);
+if(!res.rows.length)return{html:'<div class="cnt-banner">لا يوجد نص في المدونة المحلية يجمع كل كلمات «'+esc(q)+'».</div>'};
+return{html:'<h3>نتائج المدونة المحلية المستوردة</h3>'+banner(res,q)+'<div class="grid">'+res.rows.slice(0,show).map(renderHadithCard).join('')+'</div>'+(res.rows.length>show?'<div class="mini-note">المعروض أول '+show+' نتيجة. <button class="alt" onclick="goCorpus()">عرض جميع النتائج ('+res.rows.length+')</button></div>':'')}}
+function goCorpus(){const b=[...document.querySelectorAll('#tabs button')].find(x=>(x.getAttribute('onclick')||'').includes("'corpus'"));showTab('corpus',b);document.getElementById('corpusQ').value=window.__lastQ||'';searchCorpus()}
+async function searchCorpus(){const q=document.getElementById('corpusQ').value.trim(),sel=document.getElementById('corpusBookFilter').value,box=document.getElementById('corpusResults'),cnt=document.getElementById('corpusCount'),codes0=Object.keys(corpusState.meta);
+if(!codes0.length){box.innerHTML='<div class="empty">لم تستورد أي كتاب بعد. استورد كتابًا من الأعلى أولًا.</div>';cnt.textContent='';return}
+if(!q){box.innerHTML='<div class="empty">اكتب كلمات من المتن للبحث في النصوص المستوردة.</div>';cnt.textContent='';return}
+box.innerHTML='<div class="loading">جارٍ البحث محليًا...</div>';HL_Q=q;const res=await localSearch(q,sel==='all'?codes0:[sel]);corpusRes={rows:res.rows,shown:0};
+cnt.innerHTML=res.rows.length?'<span class="cnt">'+res.rows.length+'</span> نتيجة':'لا نتائج';
+box.innerHTML=res.rows.length?'<div style="grid-column:1/-1">'+banner(res,q)+'</div><div id="corpusMore" style="grid-column:1/-1;text-align:center"></div>':'<div class="empty">لا يوجد نص في الكتب المستوردة يجمع كل كلمات البحث. جرّب كلمات أقل أو صيغة أخرى.</div>';showMoreCorpus()}
+function showMoreCorpus(){const m=document.getElementById('corpusMore');if(!m)return;const s=corpusRes.rows.slice(corpusRes.shown,corpusRes.shown+30);m.insertAdjacentHTML('beforebegin',s.map(renderHadithCard).join(''));corpusRes.shown+=s.length;const left=corpusRes.rows.length-corpusRes.shown;m.innerHTML=left>0?'<button onclick="showMoreCorpus()">عرض المزيد ('+left+' متبقٍ)</button>':''}
+
+/* ---- مختبر التوثيق العلمي ---- */
+const AUTH={bukhari:{a:'محمد بن إسماعيل البخاري',d:256,s:'البخاري'},muslim:{a:'مسلم بن الحجاج',d:261,s:'مسلم'},abudawud:{a:'أبو داود السجستاني',d:275,s:'أبو داود'},tirmidhi:{a:'محمد بن عيسى الترمذي',d:279,s:'الترمذي'},nasai:{a:'أحمد بن شعيب النسائي',d:303,s:'النسائي'},ibnmajah:{a:'ابن ماجه القزويني',d:273,s:'ابن ماجه'},malik:{a:'مالك بن أنس',d:179,s:'مالك'},nawawi:{a:'يحيى بن شرف النووي',d:676,s:'النووي'}};
+const CITE_STYLES={apa:'APA (الإصدار 7)',mla:'MLA (الإصدار 9)',chicago:'Chicago (الحواشي والمراجع)',harvard:'Harvard',ieee:'IEEE',ar:'التوثيق العربي الأكاديمي (حاشية التخريج)'};
+let refs=[],citeLines=[];
+try{refs=JSON.parse(localStorage.getItem('hadith_refs')||'[]')}catch(e){}
+function saveRefs(){try{localStorage.setItem('hadith_refs',JSON.stringify(refs))}catch(e){}}
+function addRef(r){if(refs.some(x=>x.key===r.key))return false;r.ed=r.ed||{};refs.push(r);saveRefs();return true}
+function addRefHadith(uid){const r=corpusState.byUid[uid];if(!r)return;const au=AUTH[r.book]||{};
+const ok=addRef({type:'hadith',key:uid,a:au.a,d:au.d,s:au.s,t:bookArName(r.book),num:r.arabicnumber||r.hadithnumber,rb:r.refBook,rh:r.refHadith,gr:(r.grades||[]).map(g=>g.name+': '+g.grade).join('؛ '),url:'https://github.com/fawazahmed0/hadith-api'});
+renderRefs();document.getElementById('citeLab').scrollIntoView({behavior:'smooth'});if(!ok)alert('هذا الحديث مضاف من قبل.')}
+function importSelectedRefs(){let n=0;books.forEach((x,i)=>{if(selectedBooks.has(i)&&addRef({type:'book',key:'b'+i,a:x[1],t:x[0]}))n++});
+paperResults.forEach(x=>{if(selectedPapers.has(x.i)&&addRef({type:'paper',key:'p'+(x.doi||x.url||x.title),a:x.authors,t:x.title,y:x.year,j:x.journal,url:x.url,doi:x.doi}))n++});
+renderRefs();if(!n)alert('لا توجد عناصر جديدة محددة. حدّد كتبًا أو دراسات من تبويبيهما، أو أضف أحاديث من نتائج البحث.')}
+function delRef(i){refs.splice(i,1);saveRefs();renderRefs()}
+function clearRefs(){if(refs.length&&confirm('تفريغ قائمة المراجع؟')){refs=[];saveRefs();renderRefs()}}
+function setEd(i,k,v){refs[i].ed[k]=v.trim();saveRefs();renderCiteOut()}
+function renderRefs(){const L=document.getElementById('refList');if(!L)return;
+const F=[['editor','المحقق'],['pub','الناشر'],['city','المدينة'],['year','سنة النشر'],['edn','الطبعة'],['vol','الجزء'],['pg','الصفحة']];
+L.innerHTML=refs.length?refs.map((r,i)=>'<details class="ref-item"><summary><b>'+esc(r.t)+'</b>'+(r.type==='hadith'?' — حديث رقم '+esc(r.num):'')+' <span class="meta">· '+esc(r.a||'')+' · '+({hadith:'حديث',book:'مصدر',paper:'دراسة'})[r.type]+'</span> <button class="alt" style="padding:4px 9px" onclick="event.preventDefault();delRef('+i+')">حذف</button></summary><div class="mini-note">بيانات الطبعة المعتمدة (اختيارية؛ الحقل الفارغ لا يُكتب في التوثيق):</div><div class="ed-grid">'+F.map(f=>'<input placeholder="'+f[1]+'" value="'+esc((r.ed||{})[f[0]]||'')+'" oninput="setEd('+i+',\''+f[0]+'\',this.value)">').join('')+'</div></details>').join(''):'<div class="empty">القائمة فارغة. أضف أحاديث من نتائج البحث (زر «إلى قائمة المراجع»)، أو حدّد كتبًا ودراسات ثم اضغط «جلب المحدد».</div>';renderCiteOut()}
+const J=(a,s)=>a.filter(Boolean).join(s);
+function fmtRef(r,st,m,n){const ed=r.ed||{},H=r.type==='hadith',P=r.type==='paper',a=(r.a||'مؤلف غير محدد')+(r.d?' (ت '+r.d+'هـ)':''),
+sa=r.s||String(r.a||'').split(/[؛;,]/)[0].trim().split(/\s+/).pop()||'مؤلف',y=P?(r.y||''):(ed.year||''),yy=y||'د.ت.',t=r.t||'',
+loc=J([H?'حديث رقم '+r.num:'',ed.vol?'ج '+ed.vol:'',ed.pg?'ص '+ed.pg:''],'، '),pub=ed.pub||(H?'Hadith API (fawazahmed0)':''),city=ed.city||'',
+u=r.url||(r.doi?(/^http/.test(r.doi)?r.doi:'https://doi.org/'+r.doi):''),acc=u?'تاريخ الاطلاع: '+accessDate():'',pb=(city?city+': ':'')+J([pub,yy],'، ');
+if(st==='apa'){if(m!=='bib')return '('+J([sa,yy,loc],'، ')+')';return J([a+'.','('+yy+').',t+'.',ed.editor?'('+ed.editor+'، محقق).':'',ed.edn?'('+ed.edn+').':'',P&&r.j?r.j+'.':'',pub?pub+'.':'',u],' ')}
+if(st==='mla'){if(m!=='bib')return '('+J([sa,loc],' ')+')';return J([a+'.',P?'“'+t+'.”':t+'.',P?J([r.j,y],'، ')+'.':J([ed.editor?'تحقيق '+ed.editor:'',ed.edn,pub,y],'، ')+'.',u?u+'.':'',acc?acc+'.':''],' ')}
+if(st==='chicago'){if(m==='bib')return J([a+'.',P?'“'+t+'.”':t+'.',P?J([r.j,yy],'، ')+'.':pb+'.',u?u+'.':''],' ');return n+'. '+J([a,P?'“'+t+'”':t,P?J([r.j,'('+yy+')'],' '):'('+pb+')',loc],'، ')+'.'}
+if(st==='harvard'){if(m!=='bib')return '('+J([sa+' '+yy,loc],'، ')+')';return J([a,'('+yy+')',t+'.',ed.edn?ed.edn+'.':'',P&&r.j?r.j+'.':(city?city+': ':'')+(pub||'')+(pub||city?'.':''),u?'متاح على: '+u+' ('+acc+').':''],' ')}
+if(st==='ieee'){if(m!=='bib')return '['+n+']';return '['+n+'] '+J([a+',','“'+t+',”',P?r.j+',':J([city,pub],'، ')+(city||pub?',':''),yy+'.',u],' ')}
+if(m==='bib')return J([a,P?'«'+t+'»':t,ed.editor?'تحقيق: '+ed.editor:'',ed.edn?'ط'+ed.edn:'',P?r.j:J([city,pub],': '),y?y+(P?'':'م'):'د.ت'],'، ')+'.';
+if(m==='in')return '('+J([sa,H?'رقم '+r.num:'',ed.pg?'ص '+ed.pg:''],'، ')+')';
+if(H)return 'أخرجه '+sa+' في '+t+(r.rb?'، كتاب رقم ('+r.rb+') حديث ('+r.rh+') بترقيم المصدر':'')+'، رقم ('+r.num+')'+(ed.vol||ed.pg?'، '+J([ed.vol?'ج '+ed.vol:'',ed.pg?'ص '+ed.pg:''],'، '):'')+(r.gr?'. الحكم المنقول: '+r.gr:'')+'.';
+return J([sa,P?'«'+t+'»':t,ed.editor?'تح: '+ed.editor:'',ed.edn?'ط'+ed.edn:'',P?r.j:pub,yy,ed.vol?'ج '+ed.vol:'',ed.pg?'ص '+ed.pg:''],'، ')+'.'}
+function renderCiteOut(){const o=document.getElementById('citeOut');if(!o)return;const st=document.getElementById('citeStyle').value,m=document.getElementById('citeMode').value;
+let items=refs.map((r,i)=>({t:fmtRef(r,st,m,i+1),a:r.a||''}));
+if(m==='bib'){if(st!=='ieee')items.sort((x,y)=>x.a.localeCompare(y.a,'ar'));const seen=new Set();items=items.filter(x=>!seen.has(x.t)&&seen.add(x.t))}
+citeLines=items.map(x=>x.t);o.innerHTML=citeLines.length?citeLines.map((l,i)=>'<div class="cite-line"><span dir="auto">'+esc(l)+'</span><button class="alt" style="padding:6px 10px;flex:none" onclick="copyText(citeLines['+i+'])">نسخ</button></div>').join(''):''}
+function copyCiteAll(){if(!citeLines.length)return alert('لا توجد مراجع.');copyText(citeLines.join('\n\n'))}
+function downloadCite(){if(!citeLines.length)return alert('لا توجد مراجع.');download('المراجع.txt',citeLines.join('\n\n'),'text/plain')}
+function exportRefsRis(){if(!refs.length)return alert('لا توجد مراجع.');download('المراجع.ris',refs.map(r=>{const e=r.ed||{},P=r.type==='paper';return J(['TY  - '+(P?'JOUR':'BOOK'),r.a?'AU  - '+r.a:'','TI  - '+r.t,(P?r.y:e.year)?'PY  - '+(P?r.y:e.year):'',e.pub?'PB  - '+e.pub:'',e.city?'CY  - '+e.city:'',P&&r.j?'JO  - '+r.j:'',r.url?'UR  - '+r.url:'',r.doi?'DO  - '+r.doi:'','ER  - '],'\n')}).join('\n\n'),'application/x-research-info-systems')}
+function initCiteLab(){const s=document.getElementById('citeStyle');if(s)s.innerHTML=Object.keys(CITE_STYLES).map(k=>'<option value="'+k+'">'+CITE_STYLES[k]+'</option>').join('');renderRefs()}
+
+/* ===== المساعد البحثي ===== */
+const AGENT_STOP=new Set('من في على عن الى إلى هل ما ماذا كيف لماذا هذا هذه ذلك التي الذي ثم أو او كان كانت يكون حديث احاديث أحاديث الحديث بين مع قد لا لم لن إن ان أن كل'.split(' ').map(normalizeArabic));
+function agentKeywords(q){return [...new Set(normalizeArabic(q).replace(/[^\u0621-\u064Aa-z0-9\s]/g,' ').split(/\s+/).map(w=>w.replace(/^(وال|بال|لل|ال)/,'')).filter(w=>w.length>=3&&!AGENT_STOP.has(w)))]}
+function kwVariants(w){const v=new Set([w]);let m;
+if(w.length>=5&&/(ات|ون|ين|ان)$/.test(w)){const s=w.slice(0,-2);v.add(s);v.add(s+'ه')}
+if(w.length>=5&&/ه$/.test(w)){const s=w.slice(0,-1);v.add(s);v.add(s+'ات')}
+if(m=w.match(/^ت(.)(.)ي(.)$/))v.add('ت'+m[1]+'ا'+m[2]+'ي'+m[3]);
+if(m=w.match(/^ت(.)ا(.)ي(.)$/))v.add('ت'+m[1]+m[2]+'ي'+m[3]);
+return [...v]}
+async function agentRetrieve(q){const kws=agentKeywords(q),sets=kws.map(kwVariants),out=[];if(!kws.length)return{kws,sets,total:0,rows:[]};
+for(const c of Object.keys(corpusState.meta)){for(const r of await getBookRows(c)){const n=r._n||(r._n=normalizeArabic(r.text));if(sets.every(vs=>vs.some(v=>n.includes(v)))){let s=0;sets.forEach(vs=>vs.forEach(v=>{if(n.includes(v))s++}));out.push([s,r])}}}
+out.sort((a,b)=>b[0]-a[0]||a[1].text.length-b[1].text.length);return{kws,sets,total:out.length,rows:out.slice(0,8).map(x=>x[1])}}
+function saveAgentUrl(v){try{localStorage.setItem('agent_url',v.trim())}catch(e){}}
+function initAgent(){try{const u=localStorage.getItem('agent_url');if(u)document.getElementById('agentUrl').value=u}catch(e){}}
+async function askAgent(){const q=document.getElementById('agentQ').value.trim(),out=document.getElementById('agentOut'),btn=document.getElementById('agentBtn'),url=(document.getElementById('agentUrl').value||'').trim();
+if(!q)return;if(!Object.keys(corpusState.meta).length){out.innerHTML='<div class="empty">استورد كتابًا واحدًا على الأقل من تبويب «المدونة المحلية» ليبحث المساعد في نصوصه.</div>';return}
+btn.disabled=true;out.innerHTML='<div class="empty">جارٍ البحث في المدونة…</div>';HL_Q='';
+try{const {kws,sets,total,rows}=await agentRetrieve(q);
+if(!rows.length){out.innerHTML='<div class="cnt-banner"><b>لا توجد نتائج.</b> لم يُعثر في الكتب المستوردة على نص يجمع كل كلمات السؤال'+(kws.length?' («'+esc(kws.join(' '))+'»)':'')+'. جرّب كلمات أقل أو صيغة أخرى، أو استورد كتبًا إضافية من تبويب المدونة.</div>';return}
+const cards='<h3>النصوص المسترجعة (<span class="cnt">'+rows.length+'</span>'+(total>rows.length?' من '+total:'')+')</h3><div class="grid">'+rows.map((r,i)=>'<div><span class="cnt">'+(i+1)+'</span>'+renderHadithCard(r)+'</div>').join('')+'</div>';
+let ans='<div class="cnt-banner">وضع الاسترجاع فقط: لم يُضبط رابط المساعد الذكي. كل نص أدناه يجمع كل كلمات سؤالك (أو صيغها القريبة).</div>';
+if(url){out.innerHTML='<div class="empty">جارٍ إعداد الإجابة من النصوص…</div>';
+try{const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,passages:rows.map((r,i)=>({n:i+1,ref:bookArName(r.book)+'، حديث رقم '+(r.arabicnumber||r.hadithnumber),text:r.text.slice(0,900),grades:(r.grades||[]).map(g=>g.name+': '+g.grade).join('؛ ')}))})});
+const d=await res.json();if(!res.ok||!d.answer)throw new Error(d.error||('HTTP '+res.status));
+ans='<div class="result-panel"><h3>الإجابة</h3><div style="white-space:pre-wrap;line-height:2">'+esc(d.answer)+'</div><div class="mini-note">إجابة مولَّدة آليًّا من النصوص المسترجعة أدناه فقط؛ تحقق من كل نص وحكمه من المصدر الأصلي قبل الاعتماد.</div></div>'}
+catch(e){ans='<div class="cnt-banner">تعذر الاتصال بالمساعد الذكي ('+esc(e.message)+'). عُرضت النصوص المسترجعة فقط.</div>'}}
+out.innerHTML=ans+cards;markDom(out,[...new Set(sets.flat())].join(' '),true)}
+finally{btn.disabled=false}}
+/* ===== v3.2: السجل المعتمد للمصادر (من دليل المصادر والمراجع المعتمدة) ===== */
+/* إضافة كتب المصطلح الناقصة في فهرس الكتب (تُضاف في آخر المصفوفة فلا تتغير فهارس التحديد القديمة) */
+[['مقدمة ابن الصلاح (معرفة أنواع علوم الحديث)','ابن الصلاح','مصطلح','علوم الحديث'],['التقريب والتيسير','يحيى بن شرف النووي','مصطلح','علوم الحديث'],['نزهة النظر شرح نخبة الفكر','ابن حجر العسقلاني','مصطلح','علوم الحديث'],['تدريب الراوي في شرح تقريب النواوي','جلال الدين السيوطي','مصطلح','علوم الحديث'],['فتح المغيث بشرح ألفية الحديث','السخاوي','مصطلح','علوم الحديث'],['تحرير علوم الحديث','عبد الله بن يوسف الجديع','مصطلح','علوم الحديث'],['المحدث الفاصل بين الراوي والواعي','الرامهرمزي','مصطلح','علوم الحديث'],['الكفاية في علم الرواية','الخطيب البغدادي','مصطلح','علوم الحديث']].forEach(b=>{if(!books.some(x=>x[0]===b[0]))books.push(b)});
+/* بوابات جديدة */
+sites.push({name:'المكتبة الشاملة',type:'مكتبة رقمية للتراث',desc:'بحث نصي واسع في كتب التراث؛ يُفتح البحث مقيَّدًا بنطاق shamela.ws.',url:'https://shamela.ws/'},{name:'أرشيف الإنترنت (Internet Archive)',type:'نسخ رقمية وكتب مصورة',desc:'كتب وأبحاث رقمية؛ يُراجَع النص على طبعة محققة قبل الاقتباس.',url:'https://archive.org/'});
+const REG_GROUPS={original:'مصادر النصوص الحديثية',mustalah:'مصطلح الحديث وعلومه',takhrij:'التخريج والأطراف',ilal:'العلل',rijal:'الرجال والجرح والتعديل',tool:'أدوات البحث والفهرسة',library:'مكتبات رقمية ومستودعات',academic:'الدوريات والجهات البحثية'};
+const REG_STATUS={checked:['ok','تم التحقق من الرابط'],guide:['pending','رابط من دليل المصادر'],general:['pending','رابط عام للجهة'],search:['info','بحث موجَّه بالعنوان'],check:['warn','يحتاج تحققًا قبل الاعتماد']};
+/* [id, مجموعة, عنوان, مؤلف/جهة, نوع الرابط (u=رابط مباشر | s=بحث موجَّه), الرابط, الحالة, ملاحظة] */
+const REG=[
+['bukhari','original','صحيح البخاري','محمد بن إسماعيل البخاري','u','https://sunnah.com/bukhari','guide',''],
+['muslim','original','صحيح مسلم','مسلم بن الحجاج','u','https://sunnah.com/muslim','guide',''],
+['abudawud','original','سنن أبي داود','سليمان بن الأشعث','u','https://sunnah.com/abudawud','guide',''],
+['tirmidhi','original','جامع الترمذي','محمد بن عيسى الترمذي','u','https://sunnah.com/tirmidhi','guide',''],
+['nasai','original','سنن النسائي','أحمد بن شعيب النسائي','u','https://sunnah.com/nasai','guide',''],
+['ibnmajah','original','سنن ابن ماجه','محمد بن يزيد ابن ماجه','u','https://sunnah.com/ibnmajah','guide',''],
+['ahmad','original','مسند أحمد','أحمد بن حنبل','u','https://sunnah.com/ahmad','check','لم يُتحقق من اكتمال المسند على هذا الموقع؛ يُراجَع على طبعة محققة.'],
+['ibnsalah','mustalah','مقدمة ابن الصلاح (معرفة أنواع علوم الحديث)','ابن الصلاح','u','https://shamela.ws/book/22870','checked','للكتاب في الشاملة أكثر من تحقيق؛ ثبّت اسم المحقق والطبعة من بطاقة الكتاب قبل التوثيق.'],
+['taqrib','mustalah','التقريب والتيسير','يحيى بن شرف النووي','s','shamela','search','الرقم الوارد في الدليل لم يُؤكَّد.'],
+['nuzha','mustalah','نزهة النظر شرح نخبة الفكر','ابن حجر العسقلاني','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['tadrib','mustalah','تدريب الراوي في شرح تقريب النواوي','جلال الدين السيوطي','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['fathmughith','mustalah','فتح المغيث بشرح ألفية الحديث','السخاوي','s','shamela','search','رابط أرشيف الإنترنت في الدليل لم يُؤكَّد.'],
+['tahrir','mustalah','تحرير علوم الحديث','عبد الله بن يوسف الجديع','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['muhaddith','mustalah','المحدث الفاصل بين الراوي والواعي','الرامهرمزي','s','shamela','search','رابط أرشيف الإنترنت في الدليل لم يُؤكَّد.'],
+['kifaya','mustalah','الكفاية في علم الرواية','الخطيب البغدادي','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['nasbraya','takhrij','نصب الراية لأحاديث الهداية','الزيلعي','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['talkhis','takhrij','التلخيص الحبير في تخريج أحاديث الرافعي الكبير','ابن حجر العسقلاني','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['tuhfa','takhrij','تحفة الأشراف بمعرفة الأطراف','المزي','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['ilalibn','ilal','علل الحديث','ابن أبي حاتم الرازي','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['ilaldar','ilal','العلل الواردة في الأحاديث النبوية','علي بن عمر الدارقطني','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['tahdhibk','rijal','تهذيب الكمال في أسماء الرجال','المزي','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['tahdhibt','rijal','تهذيب التهذيب','ابن حجر العسقلاني','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['mizan','rijal','ميزان الاعتدال في نقد الرجال','الذهبي','s','shamela','search','رقم الدليل (book/1234) نائب مكرر لعدة كتب.'],
+['dorar','tool','الموسوعة الحديثية — الدرر السنية','الدرر السنية','u','https://dorar.net/hadith','guide','بحث وتخريج وأحكام منسوبة وشروح؛ الأحكام تُنقل بعزوها لقائلها.'],
+['hdith','tool','الموسوعة الحديثية — حديث','منصة حديث','u','https://hdith.com/encyclopedia','check','لم يُؤكَّد الرابط ولا الجهة المشرفة؛ تحقق منه قبل الاعتماد.'],
+['sunnahone','tool','الباحث الحديثي','—','u','https://sunnah.one/','check','بحث فوري للتحقق من صحة الحديث بحسب الدليل؛ لم يُؤكَّد الرابط.'],
+['sunnahcom','tool','Sunnah.com','—','u','https://sunnah.com/','guide','نصوص عربية وإنجليزية لعدد من كتب السنة.'],
+['alminasa','tool','المنصة الحديثية (ذكاء اصطناعي)','—','u','https://alminasa.ai/','check','أداة ذكاء اصطناعي: لا تُعتمد في الحكم على الأحاديث، ولم يُؤكَّد الرابط.'],
+['islamweb','tool','إسلام ويب — مركز الفتوى','إسلام ويب','u','https://www.islamweb.net/ar/','guide','مقالات وأحكام حديثية.'],
+['alukah','tool','شبكة الألوكة','الألوكة','u','https://www.alukah.net/','guide','بحوث ومقالات شرعية.'],
+['shamela','library','المكتبة الشاملة','—','u','https://shamela.ws/','checked','بحث نصي واسع في كتب التراث.'],
+['waqfeya','library','المكتبة الوقفية','—','u','https://waqfeya.net/','guide','نسخ مصورة من كتب تراثية.'],
+['archive','library','أرشيف الإنترنت','—','u','https://archive.org/','guide','كتب وأبحاث رقمية.'],
+['academia','library','أكاديميا (Academia.edu)','—','u','https://www.academia.edu/','guide','أوراق بحثية.'],
+['imamu','academic','مجلة البحوث الإسلامية — جامعة الإمام','جامعة الإمام محمد بن سعود','u','https://www.imamu.edu.sa/','general','الرابط للصفحة الرئيسية للجامعة لا لصفحة المجلة.'],
+['uqu','academic','مجلة كلية الشريعة — جامعة أم القرى','جامعة أم القرى','u','https://www.uqu.edu.sa/','general','الرابط للصفحة الرئيسية للجامعة لا لصفحة المجلة.'],
+['iu','academic','مجلة السنة المحمدية — الجامعة الإسلامية','الجامعة الإسلامية بالمدينة','u','https://www.iu.edu.sa/','general','الرابط للصفحة الرئيسية للجامعة لا لصفحة المجلة.'],
+['azhar','academic','مجلة الدراسات الحديثية — الأزهر','جامعة الأزهر','u','https://www.azhar.edu.eg/','general','الرابط للصفحة الرئيسية للجامعة لا لصفحة المجلة.'],
+['dspaceiu','academic','مستودع الجامعة الإسلامية — رسائل','الجامعة الإسلامية بالمدينة','u','https://dspace.iu.edu.sa/','check','لم يُؤكَّد الرابط.']
+];
+function regUrl(r){return r[4]==='u'?r[5]:'https://www.google.com/search?q='+encodeURIComponent('site:shamela.ws '+r[2]+' '+r[3])}
+function renderRegistry(){
+  const g=document.getElementById('regGroup'),st=document.getElementById('regStatus'),box=document.getElementById('regGrid');if(!g||!box)return;
+  const q=normalizeArabic(document.getElementById('regQ').value);
+  const arr=REG.map((r,i)=>({r,i})).filter(x=>(g.value==='all'||x.r[1]===g.value)&&(st.value==='all'||x.r[6]===st.value)&&(!q||normalizeArabic(x.r[2]+' '+x.r[3]+' '+REG_GROUPS[x.r[1]]).includes(q)));
+  const c=k=>REG.filter(r=>r[6]===k).length;
+  document.getElementById('regCount').textContent=arr.length+' من '+REG.length;
+  document.getElementById('regMsg').textContent='حالة الروابط: '+c('checked')+' تم التحقق منها · '+c('guide')+' من الدليل · '+c('general')+' روابط عامة · '+c('search')+' بحث موجَّه · '+c('check')+' تحتاج تحققًا.';
+  box.innerHTML=arr.length?arr.map(x=>{const r=x.r,b=REG_STATUS[r[6]];return '<article class="reg-card"><h3>'+esc(r[2])+'</h3><div class="meta">'+esc(r[3])+'</div><div class="row"><span class="tag">'+esc(REG_GROUPS[r[1]])+'</span><span class="badge '+b[0]+'">'+esc(b[1])+'</span></div>'+(r[7]?'<div class="mini-note">'+esc(r[7])+'</div>':'')+'<div class="reg-actions"><a href="'+esc(regUrl(r))+'" target="_blank" rel="noopener">'+(r[4]==='u'?'فتح المصدر':'بحث عن الكتاب')+'</a><button class="alt" onclick="regAddRef('+x.i+')">إلى قائمة المراجع</button>'+(r[4]==='u'?'<button class="alt" onclick="copyText(\''+esc(r[5])+'\')">نسخ الرابط</button>':'')+'</div></article>'}).join(''):'<div class="empty">لا توجد مصادر مطابقة.</div>';
+}
+function regAddRef(i){const r=REG[i];if(!r)return;const ok=addRef({type:'book',key:'reg:'+r[0],a:r[3]==='—'?'':r[3],t:r[2],url:r[4]==='u'?r[5]:''});renderRefs();document.getElementById('regMsg').textContent=ok?('أُضيف «'+r[2]+'» إلى قائمة المراجع في مختبر التوثيق أسفل الصفحة؛ أكمل بيانات الطبعة المعتمدة.'):'هذا المصدر مضاف من قبل.'}
+function goRegistry(grp){const b=[...document.querySelectorAll('#tabs button')].find(x=>x.getAttribute('onclick')?.includes("'registry'"));if(b)showTab('registry',b);const g=document.getElementById('regGroup');if(g)g.value=grp||'all';renderRegistry();document.getElementById('tabs').scrollIntoView({behavior:'smooth',block:'start'})}
+const GUIDE_RULES=['تُقدَّم المصادر الأصلية المطبوعة المحققة على المواقع المختصرة أو المحتوى غير الموثق.','يُفرَّق بين «العزو والتخريج» وبين «الحكم على الحديث»؛ فوجود الحديث في كتاب لا يكفي وحده للحكم على كل إسناده إلا حيث التزم المؤلف شرط الصحة.','تُوثَّق الطبعة: اسم الكتاب، المؤلف، المحقق، دار النشر، الطبعة، الجزء والصفحة أو رقم الحديث.','عند اختلاف أحكام المحدّثين يُنقل الخلاف بأمانة مع بيان القائل ودليله، ولا تُنسب درجةٌ بلا مرجع.','المواقع الإلكترونية أدوات مساعدة للبحث والفهرسة؛ ويُراجع النص في مصدره الأصلي أو طبعة محققة قبل الاقتباس النهائي.'];
+const GUIDE_PATH=['حدّد نص الحديث بدقة، ودوّن الكلمات المفتاحية وأشهر ألفاظه.','ابحث في الموسوعة الحديثية أو أداة بحث موثوقة لتحديد المراجع الأولية ومواضع الحديث.','راجع نص الحديث وسنده في أحد المصادر الأصلية المحققة، وسجّل رقم الحديث والجزء والصفحة.','اجمع الطرق والشواهد من كتب التخريج والأطراف عند الحاجة.','ادرس الرواة والعلل من كتب الرجال والعلل، أو انقل حكم ناقد معتبر موثقًا.','اكتب النتيجة بصيغة منسوبة: «صححه فلان»، أو «ضعفه فلان»، أو «اختلف العلماء في تصحيحه»، مع المراجع كاملة.'];
+function renderGuide(){const b=document.getElementById('ulumGuide');if(!b)return;
+  b.innerHTML='<div class="section-title" style="margin-top:20px"><h2 style="font-size:18px">ضوابط الاعتماد العلمي ومنهج البحث</h2><span class="meta">من دليل المصادر والمراجع المعتمدة</span></div>'+
+  '<details open><summary>ضوابط الاعتماد العلمي</summary><ul>'+GUIDE_RULES.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></details>'+
+  '<details><summary>منهج بحث عملي</summary><ol>'+GUIDE_PATH.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol></details>'+
+  '<details><summary>صيغة التوثيق المقترحة</summary><ul><li><b>كتاب مطبوع:</b> المؤلف، عنوان الكتاب، تحقيق: اسم المحقق، (المدينة: دار النشر، رقم الطبعة، السنة)، رقم الجزء/الصفحة أو رقم الحديث.</li><li><b>مصدر إلكتروني:</b> اسم المنصة، عنوان المادة أو نص الحديث، الرابط، تاريخ الاطلاع، مع ذكر المصدر الأصلي الذي تعزو إليه المنصة إن وُجد.</li></ul></details>'+
+  '<div class="note" style="margin-top:12px"><strong>تنبيه ختامي:</strong> لا توجد أداة واحدة تضم جميع المصادر والبحوث مع ضمان خلوها من اختلاف النسخ أو الأحكام. المسار الأكثر رصانة: أداة بحث موثوقة للوصول السريع، ثم مصدر أصلي أو طبعة محققة للتوثيق، ثم مراجع العلل والرجال أو حكم ناقد متخصص عند تقويم الحديث. ولا تُغني النتائج الآلية عن مراجعة أهل الاختصاص عند بناء حكم علمي جديد على حديث.</div>'}
+function verifyPathHtml(){return '<h3 style="margin-top:16px">مسار التحقق المعتمد</h3><div class="mini-note">بعد الوصول إلى النص، تحقّق منه بهذا الترتيب قبل أن تبني عليه حكمًا:</div><ol class="path-steps">'+GUIDE_PATH.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol><div class="toolbar"><button class="alt" onclick="goRegistry(\'original\')">المصادر الأصلية</button><button class="alt" onclick="goRegistry(\'takhrij\')">التخريج والأطراف</button><button class="alt" onclick="goRegistry(\'ilal\')">العلل</button><button class="alt" onclick="goRegistry(\'rijal\')">الرجال</button></div>'}
+function initRegistry(){const g=document.getElementById('regGroup'),st=document.getElementById('regStatus');if(!g)return;g.innerHTML='<option value="all">كل التصنيفات</option>'+Object.keys(REG_GROUPS).map(k=>'<option value="'+k+'">'+esc(REG_GROUPS[k])+'</option>').join('');st.innerHTML='<option value="all">كل حالات الرابط</option>'+Object.keys(REG_STATUS).map(k=>'<option value="'+k+'">'+esc(REG_STATUS[k][1])+'</option>').join('');renderRegistry();renderGuide();const n=document.getElementById('statSites');if(n)n.textContent=sites.length}
+
+/* ===== v3.3: البحث الشامل (محرك موحَّد على كل أقسام المنصة) ===== */
+const UNI_L='\u0621-\u064A0-9a-z';
+const uniEsc=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+let uniSeq=0,uniTimer=null,uniVocab=null,uniVocabSig='',uniState={rows:[],shown:0,hl:'',sec:'all',plain:''};
+function uniDigits(s){return String(s).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d))}
+function uniParse(q){
+  q=uniDigits(q);const P={phr:[],neg:[],num:[],wild:[],wildSrc:[],words:[]};
+  const rest=q.replace(/"([^"]+)"|«([^»]+)»|“([^”]+)”/g,(m,a,b,c)=>{const p=normalizeArabic(a||b||c).replace(/\s+/g,' ').trim();if(p)P.phr.push(p);return ' '});
+  rest.split(/\s+/).filter(Boolean).forEach(t=>{
+    if(t.length>1&&t[0]==='-'){const n=normalizeArabic(t.slice(1));if(n)P.neg.push(n);return}
+    if(/^\d+$/.test(t)){P.num.push(t);return}
+    if(/[*?]/.test(t)){const n=normalizeArabic(t),core=n.replace(/[*?]/g,'');if(core){const body=[...n].map(ch=>ch==='*'?'['+UNI_L+']*':ch==='?'?'['+UNI_L+']':uniEsc(ch)).join('');P.wild.push(new RegExp('(?:^|[^'+UNI_L+'])'+body+'(?!['+UNI_L+'])'));P.wildSrc.push(core)}return}
+    const n=normalizeArabic(t.replace(/[^\u0621-\u064A\u064B-\u065F\u0670\u0640a-zA-Z0-9]/g,''));if(n)P.words.push(n)});
+  if(P.num.length)P.words=P.words.filter(w=>w!=='رقم'&&w!=='حديث');
+  return P}
+function uniVariants(w,mode){const v=new Set([w]);const st=w.replace(/^(وال|فال|بال|كال|لل|ال)/,'');if(st.length>=3)v.add(st);
+  if(mode==='smart'||mode==='fuzzy'||mode==='any'){[...v].forEach(x=>{try{kwVariants(x).forEach(y=>v.add(y))}catch(e){}})}
+  return [...v].filter(Boolean)}
+function uniMax(w){return w.length<=2?0:w.length<=7?1:2}
+function uniLev(a,b,max){const la=a.length,lb=b.length;if(Math.abs(la-lb)>max)return max+1;let prev=[];for(let j=0;j<=lb;j++)prev.push(j);
+  for(let i=1;i<=la;i++){const cur=[i];let mn=i;for(let j=1;j<=lb;j++){const v=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));cur.push(v);if(v<mn)mn=v}if(mn>max)return max+1;prev=cur}return prev[lb]}
+function uniTesters(P,mode,exp){
+  const NL=new RegExp('[^'+UNI_L+']+');
+  return P.words.map(w=>{
+    const vs=uniVariants(w,mode),alt=vs.slice().sort((a,b)=>b.length-a.length).map(uniEsc).join('|');
+    const wholeRe=new RegExp('(?:^|[^'+UNI_L+'])(?:'+alt+')(?!['+UNI_L+'])'),startRe=new RegExp('(?:^|[^'+UNI_L+'])(?:'+alt+')');
+    let test;
+    if(mode==='whole')test=F=>wholeRe.test(F);
+    else if(mode==='start')test=F=>startRe.test(F);
+    else if(mode==='fuzzy'){
+      if(exp){const ex=exp[w]||[],exRe=ex.length?new RegExp('(?:^|[^'+UNI_L+'])(?:'+ex.map(uniEsc).join('|')+')(?!['+UNI_L+'])'):null;test=F=>vs.some(v=>F.includes(v))||(exRe!==null&&exRe.test(F))}
+      else{const mx=uniMax(w);test=F=>vs.some(v=>F.includes(v))||(w.length>=3&&F.split(NL).some(x=>x&&Math.abs(x.length-w.length)<=mx&&uniLev(x,w,mx)<=mx))}
+    }else test=F=>vs.some(v=>F.includes(v));
+    return{w,vs,test,wholeRe,startRe}})}
+async function uniGetVocab(codes){
+  const sig=codes.map(c=>c+':'+((corpusState.meta[c]||{}).count||0)).join(',');
+  if(uniVocab&&uniVocabSig===sig)return uniVocab;
+  const m=new Map(),NL=new RegExp('[^'+UNI_L+']+');
+  for(const c of codes){for(const r of await getBookRows(c)){for(const w of uniRowN(r).split(NL)){if(w.length>=3)m.set(w,(m.get(w)||0)+1)}}}
+  uniVocab=m;uniVocabSig=sig;return m}
+async function uniExpand(words,codes){
+  const voc=await uniGetVocab(codes),out={};
+  for(const w of words){out[w]=[];if(w.length<3)continue;const mx=uniMax(w),c=[];
+    for(const base of uniVariants(w,'start')){if(base.length<3)continue;const m2=uniMax(base);
+      for(const [x,f] of voc){if(Math.abs(x.length-base.length)>m2)continue;const d=uniLev(x,base,m2);if(d<=m2)c.push([d,f,x])}}
+    c.sort((a,b)=>a[0]-b[0]||b[1]-a[1]);out[w]=[...new Set(c.map(z=>z[2]))].slice(0,30)}
+  return out}
+function uniRowN(r){return r._n||(r._n=normalizeArabic(r.text))}
+function uniRowM(r){return r._m||(r._m=normalizeArabic(bookArName(r.book)+' '+(r.arabicnumber||'')+' '+(r.hadithnumber||'')+' '+(r.grades||[]).map(g=>g.name+' '+g.grade).join(' ')+' '+(r.refBook||'')+' '+(r.refHadith||'')))}
+async function uniHadith(P,mode,scope,codes){
+  const rows=[],per={},exp=mode==='fuzzy'?await uniExpand(P.words,codes):null,T=uniTesters(P,mode,exp),sc=(P.num.length&&scope==='text')?'all':scope,joined=P.words.join(' ');
+  const hlSet=new Set();T.forEach(t=>t.vs.forEach(v=>hlSet.add(v)));if(exp)Object.values(exp).forEach(a=>a.forEach(x=>hlSet.add(x)));P.phr.forEach(p=>p.split(' ').forEach(x=>hlSet.add(x)));P.wildSrc.forEach(x=>hlSet.add(x));
+  for(const c of codes){for(const r of await getBookRows(c)){
+    const n=uniRowN(r);
+    if(P.neg.length&&P.neg.some(x=>n.includes(x)))continue;
+    let F=n;if(sc!=='text'){const m=uniRowM(r);F=sc==='meta'?m:n+' | '+m}
+    const conds=[];let numHit=false;
+    if(P.num.length){numHit=P.num.some(d=>String(r.arabicnumber)===d||String(r.hadithnumber)===d);conds.push(numHit)}
+    if(mode==='phrase'){if(joined)conds.push(F.includes(joined))}else T.forEach(t=>conds.push(t.test(F)));
+    P.phr.forEach(p=>conds.push(F.includes(p)));P.wild.forEach(re=>conds.push(re.test(F)));
+    if(!conds.length)continue;
+    const hits=conds.filter(Boolean).length;if(mode==='any'?hits===0:hits!==conds.length)continue;
+    let sco=hits;if(mode!=='phrase')T.forEach(t=>{sco+=t.wholeRe.test(n)?4:t.startRe.test(n)?3:t.vs.some(v=>n.includes(v))?1.5:0});
+    if(P.words.length>1&&n.includes(joined))sco+=6;P.phr.forEach(p=>{if(n.includes(p))sco+=5});if(numHit)sco+=10;sco-=n.length/6000;
+    r._s=sco;rows.push(r);per[c]=(per[c]||0)+1}}
+  rows.sort((a,b)=>b._s-a._s);
+  return{rows,per,hl:[...hlSet].sort((a,b)=>b.length-a.length).join(' ')}}
+function uniMatchStr(N,P,mode,T){
+  if(P.neg.some(x=>N.includes(x)))return false;const conds=[];
+  if(mode==='phrase'){const ph=P.words.concat(P.num).join(' ');if(ph)conds.push(N.includes(ph))}else{T.forEach(t=>conds.push(t.test(N)));P.num.forEach(d=>conds.push(N.includes(d)))}
+  P.phr.forEach(p=>conds.push(N.includes(p)));P.wild.forEach(re=>conds.push(re.test(N)));
+  if(!conds.length)return false;return mode==='any'?conds.some(Boolean):conds.every(Boolean)}
+function uniCats(P,mode){
+  const T=uniTesters(P,mode,null),ok=N=>uniMatchStr(N,P,mode,T);
+  const res={books:[],reg:[],ulum:[],sites:[],refs:[]};
+  books.forEach((x,i)=>{if(ok(normalizeArabic(x.join(' '))))res.books.push(i)});
+  REG.forEach((r,i)=>{if(ok(normalizeArabic(r[2]+' '+r[3]+' '+REG_GROUPS[r[1]]+' '+r[7]+' '+REG_STATUS[r[6]][1])))res.reg.push(i)});
+  ULUM_TERMS.forEach((t,i)=>{if(ok(normalizeArabic(t[0]+' '+t[1])))res.ulum.push({k:'term',i})});
+  GUIDE_RULES.forEach((t,i)=>{if(ok(normalizeArabic(t)))res.ulum.push({k:'rule',i})});
+  GUIDE_PATH.forEach((t,i)=>{if(ok(normalizeArabic(t)))res.ulum.push({k:'path',i})});
+  sites.forEach((x,i)=>{if(ok(normalizeArabic(x.name+' '+x.type+' '+x.desc)))res.sites.push(i)});
+  refs.forEach((r,i)=>{if(ok(normalizeArabic((r.t||'')+' '+(r.a||''))))res.refs.push(i)});
+  res.total=res.books.length+res.reg.length+res.ulum.length+res.sites.length+res.refs.length;return res}
+function uniTab(id){const b=[...document.querySelectorAll('#tabs button')].find(x=>(x.getAttribute('onclick')||'').includes("'"+id+"'"));if(b)showTab(id,b);document.getElementById('tabs').scrollIntoView({behavior:'smooth',block:'start'})}
+function uniMsg(t){const m=document.getElementById('uniMsg');if(m)m.textContent=t}
+function uniOpenBooks(){const f=document.getElementById('filter');if(f)f.value=uniState.plain;const c=document.getElementById('cat');if(c)c.value='all';uniTab('books');renderBooks()}
+function uniAddBook(i){const x=books[i];if(!x)return;const ok=addRef({type:'book',key:'b'+i,a:x[1],t:x[0]});renderRefs();uniMsg(ok?'أُضيف «'+x[0]+'» إلى قائمة المراجع في مختبر التوثيق.':'هذا المصدر مضاف من قبل.')}
+function uniRefreshBooks(){const sel=document.getElementById('uniBook');if(!sel)return;const cur=sel.value,codes=Object.keys(corpusState.meta||{});
+  sel.innerHTML='<option value="all">كل الكتب المستوردة'+(codes.length?' ('+codes.length+')':'')+'</option>'+codes.map(c=>'<option value="'+esc(c)+'">'+esc(bookArName(c))+'</option>').join('');if(codes.includes(cur))sel.value=cur}
+function uniHistGet(){try{return JSON.parse(localStorage.getItem('hadith_uni_hist')||'[]')}catch(e){return []}}
+function uniHistAdd(q){try{let h=uniHistGet().filter(x=>x!==q);h.unshift(q);localStorage.setItem('hadith_uni_hist',JSON.stringify(h.slice(0,8)))}catch(e){}uniHistRender()}
+function uniHistRender(){const b=document.getElementById('uniHist');if(!b)return;const h=uniHistGet();b.innerHTML=h.length?'<span class="mini-note">آخر عمليات البحث:</span> '+h.map((x,i)=>'<button class="alt uni-h" onclick="uniUseHist('+i+')">'+esc(x)+'</button>').join('')+' <button class="alt uni-h" onclick="uniHistClear()">مسح السجل</button>':''}
+function uniUseHist(i){const q=uniHistGet()[i];if(q){document.getElementById('uniQ').value=q;uniSearch(true)}}
+function uniHistClear(){try{localStorage.removeItem('hadith_uni_hist')}catch(e){}uniHistRender()}
+function uniClear(){uniSeq++;document.getElementById('uniQ').value='';const o=document.getElementById('uniOut');o.hidden=true;o.innerHTML=''}
+function uniSec(sec){uniState.sec=sec;document.querySelectorAll('#uniOut [data-sec]').forEach(e=>{e.hidden=!(sec==='all'||e.dataset.sec===sec)});document.querySelectorAll('#uniOut .uni-chip').forEach(b=>b.classList.toggle('active',b.dataset.chip===sec))}
+function uniMore(){const g=document.getElementById('uniHadithGrid'),m=document.getElementById('uniMoreBox');if(!g||!m)return;HL_Q=uniState.hl;const part=uniState.rows.slice(uniState.shown,uniState.shown+20);g.insertAdjacentHTML('beforeend',part.map(renderHadithCard).join(''));uniState.shown+=part.length;const left=uniState.rows.length-uniState.shown;m.innerHTML=left>0?'<button onclick="uniMore()">عرض المزيد ('+left+' متبقٍ)</button>':''}
+/* ===== v3.4: البحث في الويب داخل البحث الشامل (الدرر السنية + OpenAlex) ===== */
+const UNI_API='';            /* فارغ = خادم المنصة نفسها (Worker) على المسار /api/dorar */
+const UNI_ALLOW_JSONP=true;  /* احتياطي رسمي من الدرر السنية عند غياب الـ Worker؛ اجعلها false لتعطيله */
+let uniWebCache=new Map(),uniWebTimer=null,uniDorarMode='',uniWebItems={d:[],p:[]};
+function uniJsonp(url,timeout){return new Promise((res,rej)=>{const cb='__uniCb'+Date.now()+Math.floor(Math.random()*1e4),sc=document.createElement('script');let t;
+  const done=()=>{try{delete window[cb]}catch(e){window[cb]=undefined}sc.remove();clearTimeout(t)};
+  t=setTimeout(()=>{done();rej(new Error('timeout'))},timeout||9000);window[cb]=d=>{done();res(d)};sc.onerror=()=>{done();rej(new Error('network'))};
+  sc.src=url+(url.includes('?')?'&':'?')+'callback='+cb;document.head.appendChild(sc)})}
+function dorarHtmlOf(d){return(d&&d.ahadith&&d.ahadith.result)||(d&&d.result)||''}
+async function uniDorar(q){
+  let html=null,perr=null;
+  if(uniDorarMode!=='jsonp'){
+    try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),10000);const r=await fetch(UNI_API+'/api/dorar?q='+encodeURIComponent(q),{signal:ctl.signal});clearTimeout(tm);
+      const ct=r.headers.get('content-type')||'';
+      if(r.ok&&ct.includes('json')){const j=await r.json();if(j&&j.ok!==false){html=dorarHtmlOf(j);uniDorarMode='proxy'}else perr=new Error((j&&j.error)||'proxy')}
+      else if(r.status===404||(r.ok&&!ct.includes('json')))uniDorarMode='jsonp';
+      else perr=new Error('HTTP '+r.status)}
+    catch(e){perr=e}}
+  if(html===null&&UNI_ALLOW_JSONP){try{html=dorarHtmlOf(await uniJsonp('https://dorar.net/dorar_api.json?skey='+encodeURIComponent(q),9000))}catch(e){throw perr||e}}
+  if(html===null)throw perr||new Error('unavailable');
+  return dorarParse(html)}
+function dorarParse(html){
+  const doc=new DOMParser().parseFromString(String(html||''),'text/html'),items=[],labels=['الراوي','المحدث','المصدر','الصفحة أو الرقم','خلاصة حكم المحدث'],norm=t=>String(t||'').replace(/\s+/g,' ').trim();
+  doc.querySelectorAll('.hadith').forEach(h=>{
+    let info=h.nextElementSibling;while(info&&!info.classList.contains('hadith-info')&&!info.classList.contains('hadith'))info=info.nextElementSibling;if(info&&!info.classList.contains('hadith-info'))info=null;
+    const text=norm(h.textContent).replace(/^\d+\s*-\s*/,''),it={text,narrator:'',muhaddith:'',source:'',number:'',grade:''};
+    if(info){const t=norm(info.textContent),pos=[];labels.forEach(l=>{const m=new RegExp(l+'\\s*:').exec(t);if(m)pos.push({l,i:m.index,len:m[0].length})});pos.sort((a,b)=>a.i-b.i);
+      pos.forEach((p,k)=>{const v=norm(t.slice(p.i+p.len,k+1<pos.length?pos[k+1].i:t.length));if(p.l==='الراوي')it.narrator=v;else if(p.l==='المحدث')it.muhaddith=v;else if(p.l==='المصدر')it.source=v;else if(p.l==='الصفحة أو الرقم')it.number=v;else it.grade=v})}
+    if(text)items.push(it)});
+  if(!items.length){const t=norm(doc.body?doc.body.textContent:'');if(t)return{items:[{text:t.slice(0,1500),narrator:'',muhaddith:'',source:'',number:'',grade:'',raw:true}],raw:true}}
+  return{items:items.slice(0,20),raw:false}}
+async function uniPapers(q){
+  const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),10000);
+  const r=await fetch('https://api.openalex.org/works?search='+encodeURIComponent(q)+'&per-page=8&select=id,title,publication_year,doi,primary_location,authorships',{signal:ctl.signal});clearTimeout(tm);
+  if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();
+  return(j.results||[]).map(w=>({title:w.title||'بدون عنوان',authors:(w.authorships||[]).slice(0,4).map(a=>(a.author||{}).display_name).filter(Boolean).join('؛ '),year:w.publication_year||'',journal:((w.primary_location||{}).source||{}).display_name||'',doi:(w.doi||'').replace(/^https?:\/\/doi\.org\//,''),url:w.doi||(w.primary_location||{}).landing_page_url||w.id||''}))}
+async function uniWebFetch(q){const [a,b]=await Promise.allSettled([uniDorar(q),uniPapers(q)]);return{d:a,p:b}}
+function uniWebChipCount(n){const c=document.querySelector('#uniOut .uni-chip[data-chip="web"]');if(c)c.textContent='الويب'+(n===null?'':' ('+n+')');const h=document.querySelector('#uniOut .cnt[data-n="web"]');if(h)h.textContent=n===null?'…':n}
+function uniWebRender(res,q,hl){
+  const box=document.getElementById('uniWebBox');if(!box)return;
+  const dUrl=hadithSourceUrl('dorar',q);let h='',n=0;
+  if(res.d.status==='fulfilled'){const v=res.d.value;uniWebItems.d=v.items;n+=v.items.length;
+    h+='<h4 class="sec-h" style="font-size:16px">الموسوعة الحديثية — الدرر السنية <span class="cnt">'+v.items.length+'</span></h4>';
+    h+=v.items.length?'<div class="mini-note">أحكام المحدثين منقولة كما وردت في الموسوعة، والمنصة لا تصدر حكمًا من عندها. راجع النص في الطبعة المحققة قبل الاعتماد.'+(v.raw?' <b>تعذّر تفكيك بنية النتيجة فعُرض النص كما وصل.</b>':'')+'</div><div class="grid">'+v.items.map((it,i)=>'<article class="hadith-card"><div class="meta">'+esc(it.source||'الموسوعة الحديثية')+(it.number?' — '+esc(it.number):'')+'</div><div class="hadith-text">'+esc(dtext(it.text))+'</div><div class="grade-row">'+(it.narrator?'<span class="grade-chip">الراوي: '+esc(it.narrator)+'</span>':'')+(it.muhaddith?'<span class="grade-chip">المحدث: '+esc(it.muhaddith)+'</span>':'')+(it.grade?'<span class="grade-chip">خلاصة الحكم: '+esc(it.grade)+'</span>':'')+'</div><div class="book-tools"><button class="alt" onclick="uniWebCopy('+i+')">📋 نسخ مع التوثيق</button><button class="alt" onclick="uniWebAddRef('+i+')">➕ إلى قائمة المراجع</button><button class="alt" onclick="dosAddWeb('+i+')">📁 إلى ملف البحث</button></div></article>').join('')+'</div><div class="mini-note" style="margin-top:8px"><a href="'+esc(dUrl)+'" target="_blank" rel="noopener">عرض كل النتائج في الدرر السنية ↗</a></div>':'<div class="empty">لا نتائج في الدرر السنية لهذه العبارة. جرّب كلمات أقل، أو <a href="'+esc(dUrl)+'" target="_blank" rel="noopener">افتح البحث في الموقع ↗</a></div>'}
+  else h+='<h4 class="sec-h" style="font-size:16px">الموسوعة الحديثية — الدرر السنية</h4><div class="note">تعذّر الاتصال بالدرر السنية الآن ('+esc((res.d.reason&&res.d.reason.message)||'خطأ')+'). <a href="'+esc(dUrl)+'" target="_blank" rel="noopener">افتح البحث في الموقع ↗</a></div>';
+  if(res.p.status==='fulfilled'){const v=res.p.value;uniWebItems.p=v;n+=v.length;
+    h+='<h4 class="sec-h" style="font-size:16px">دراسات وأوراق علمية (OpenAlex) <span class="cnt">'+v.length+'</span></h4>';
+    h+=v.length?'<div class="grid">'+v.map((x,i)=>'<article class="card"><h3>'+(x.url?'<a href="'+esc(x.url)+'" target="_blank" rel="noopener" style="color:inherit">'+esc(x.title)+'</a>':esc(x.title))+'</h3><div class="meta">'+esc(x.authors||'المؤلف غير مذكور')+'</div><div><span class="tag">'+esc(x.year||'السنة غير متاحة')+'</span>'+(x.journal?'<span class="tag">'+esc(x.journal)+'</span>':'')+'</div><div class="book-tools"><button class="alt" onclick="uniPaperAdd('+i+')">إلى قائمة المراجع</button></div></article>').join('')+'</div>':'<div class="empty">لا دراسات مطابقة في OpenAlex.</div>'}
+  else h+='<h4 class="sec-h" style="font-size:16px">دراسات وأوراق علمية (OpenAlex)</h4><div class="note">تعذّر الوصول إلى OpenAlex الآن ('+esc((res.p.reason&&res.p.reason.message)||'خطأ')+').</div>';
+  box.innerHTML=h;uniWebChipCount(n);if(hl)markDom(box,hl,true)}
+function uniWebRun(q,my,manual,hl){
+  clearTimeout(uniWebTimer);const box=document.getElementById('uniWebBox');if(!box)return;q=(q||'').trim();
+  if(q.length<2){box.innerHTML='<div class="empty">اكتب حرفين على الأقل (كلمات عادية، لا أرقامًا فقط) لبحث الويب.</div>';return}
+  const hit=uniWebCache.get(q);if(hit&&Date.now()-hit.t<600000){uniWebRender(hit.d,q,hl);return}
+  box.innerHTML='<div class="empty">'+(manual?'جارٍ البحث في الويب…':'سيُبحث في الويب بعد توقفك عن الكتابة…')+'</div>';
+  uniWebTimer=setTimeout(async()=>{if(my!==uniSeq)return;const d=await uniWebFetch(q);if(my!==uniSeq)return;
+    if(d.d.status==='fulfilled'||d.p.status==='fulfilled')uniWebCache.set(q,{t:Date.now(),d});uniWebRender(d,q,hl)},manual?0:1100)}
+function uniWebCopy(i){const it=uniWebItems.d[i];if(!it)return;copyText(it.text+'\n\n'+[it.narrator?'الراوي: '+it.narrator:'',it.muhaddith?'المحدث: '+it.muhaddith:'',it.source?'المصدر: '+it.source:'',it.number?'الصفحة أو الرقم: '+it.number:'',it.grade?'خلاصة حكم المحدث (منقولة): '+it.grade:''].filter(Boolean).join('\n')+'\n\nمصدر النص والحكم: الموسوعة الحديثية — الدرر السنية (dorar.net/hadith). تاريخ الاطلاع: '+accessDate()+'.')}
+function uniWebAddRef(i){const it=uniWebItems.d[i];if(!it)return;let k=0;for(const ch of it.text)k=(k*31+ch.charCodeAt(0))|0;
+  const ok=addRef({type:'hadith',key:'dorar:'+k,a:'الدرر السنية',t:it.source||'الموسوعة الحديثية',num:it.number||'—',gr:[it.muhaddith?'المحدث: '+it.muhaddith:'',it.grade?'خلاصة الحكم: '+it.grade:''].filter(Boolean).join('؛ '),url:'https://dorar.net/hadith',ed:{pub:'الموسوعة الحديثية — الدرر السنية'}});renderRefs();uniMsg(ok?'أُضيف الحديث إلى قائمة المراجع في مختبر التوثيق.':'هذا الحديث مضاف من قبل.')}
+function uniPaperAdd(i){const x=uniWebItems.p[i];if(!x)return;const ok=addRef({type:'paper',key:'p'+(x.doi||x.url||x.title),a:x.authors,t:x.title,y:x.year,j:x.journal,url:x.url,doi:x.doi});renderRefs();uniMsg(ok?'أُضيفت الدراسة إلى قائمة المراجع في مختبر التوثيق.':'هذه الدراسة مضافة من قبل.')}
+
+async function uniSearch(manual){
+  const raw=document.getElementById('uniQ').value.trim(),out=document.getElementById('uniOut');
+  if(!raw){out.hidden=true;out.innerHTML='';return}
+  const my=++uniSeq,mode0=document.getElementById('uniMode').value,scope=document.getElementById('uniScope').value,sel=document.getElementById('uniBook').value;
+  uniRefreshBooks();document.getElementById('uniBook').value=sel==='all'||(corpusState.meta||{})[sel]?sel:'all';
+  const P=uniParse(raw);
+  if(!P.words.length&&!P.phr.length&&!P.num.length&&!P.wild.length){out.hidden=false;out.innerHTML='<div class="note">اكتب كلمة أو حرفين على الأقل (العلامة «-» وحدها للاستبعاد فقط).</div>';return}
+  out.hidden=false;out.innerHTML='<div class="empty">جارٍ البحث في المنصة…</div>';if(manual)uniHistAdd(raw);
+  const codes0=Object.keys(corpusState.meta||{}),selNow=document.getElementById('uniBook').value,codes=selNow==='all'?codes0:[selNow].filter(c=>codes0.includes(c));
+  const notes=[];let used=mode0,res=await uniHadith(P,mode0,scope,codes);if(my!==uniSeq)return;
+  if(!res.rows.length&&mode0==='smart'&&codes.length){
+    res=await uniHadith(P,'fuzzy',scope,codes);if(my!==uniSeq)return;
+    if(res.rows.length){used='fuzzy';notes.push('لا توجد نتيجة مطابقة تمامًا؛ عُرضت نتائج تقريبية تتسامح مع الأخطاء الإملائية.')}
+    else if(P.words.length+P.phr.length+P.wild.length>1){res=await uniHadith(P,'any',scope,codes);if(my!==uniSeq)return;if(res.rows.length){used='any';notes.push('لا يوجد حديث يجمع كل الكلمات؛ عُرضت الأحاديث التي تحوي أيًّا منها مرتَّبةً بحسب عدد الكلمات المطابقة.')}}}
+  let cats=uniCats(P,used==='fuzzy'?'smart':used);
+  if(!cats.total&&mode0==='smart'&&!res.rows.length){const c2=uniCats(P,'fuzzy');if(c2.total){cats=c2;notes.push('عُرضت نتائج تقريبية في الكتب والمصادر.')}}
+  const plain=raw.replace(/["«»“”]/g,'').split(/\s+/).filter(t=>t&&!/^-/.test(t)&&!/[*?]/.test(t)).join(' ');
+  uniState={rows:res.rows,shown:0,hl:res.hl,sec:uniState.sec||'all',plain};
+  const hlAll=res.hl||(P.words.concat(P.wildSrc)).join(' ');
+  const per=Object.keys(res.per).map(c=>'<span class="grade-chip">'+esc(bookArName(c))+': '+res.per[c]+'</span>').join('');
+  let hs;
+  if(!codes0.length)hs='<div class="note"><strong>لا توجد أحاديث مستوردة بعد.</strong> البحث داخل متن الأحاديث يعمل على النصوص التي تستوردها إلى متصفحك (لا تُرسل إلى أي خادم). <button onclick="uniTab(\'corpus\')">استيراد الكتب من «المدونة المحلية»</button></div>';
+  else if(!res.rows.length)hs='<div class="empty">لا توجد أحاديث مطابقة في '+(selNow==='all'?'الكتب المستوردة':esc(bookArName(selNow)))+'. جرّب كلمة أقصر، أو طريقة «تقريبي»، أو «أي كلمة».</div>';
+  else hs='<div class="cnt-banner"><span class="cnt">'+res.rows.length+'</span> حديثًا مطابقًا'+(res.rows.length>500?' — النتائج كثيرة، أضف كلمة أو اختر طريقة «عبارة كاملة» لتضييقها':'')+'<div class="grade-row" style="margin-top:6px">'+per+'</div></div><div class="grid" id="uniHadithGrid"></div><div id="uniMoreBox" style="text-align:center;margin-top:10px"></div>';
+  const sec=(k,title,n,body)=>'<div class="uni-sec" data-sec="'+k+'"><h3 class="sec-h">'+title+' <span class="cnt" data-n="'+k+'">'+n+'</span></h3>'+body+'</div>';
+  const cap=(a,f,max)=>a.slice(0,max).map(f).join('')+(a.length>max?'<div class="mini-note" style="grid-column:1/-1">المعروض أول '+max+' من '+a.length+'. حدّد القسم أو ضيّق البحث.</div>':'');
+  const bookCard=i=>{const x=books[i];return '<article class="card"><h3>'+esc(x[0])+'</h3><div class="meta">'+esc(x[1])+'</div><div><span class="tag">'+esc(x[2])+'</span><span class="tag">'+esc(x[3])+'</span></div><div class="book-tools"><button class="alt" onclick="uniOpenBooks()">عرض في الفهرس</button><button class="alt" onclick="uniAddBook('+i+')">إلى قائمة المراجع</button></div></article>'};
+  const regCard=i=>{const r=REG[i],b=REG_STATUS[r[6]];return '<article class="reg-card"><h3>'+esc(r[2])+'</h3><div class="meta">'+esc(r[3])+'</div><div class="row"><span class="tag">'+esc(REG_GROUPS[r[1]])+'</span><span class="badge '+b[0]+'">'+esc(b[1])+'</span></div>'+(r[7]?'<div class="mini-note">'+esc(r[7])+'</div>':'')+'<div class="reg-actions"><a href="'+esc(regUrl(r))+'" target="_blank" rel="noopener">'+(r[4]==='u'?'فتح المصدر':'بحث عن الكتاب')+'</a><button class="alt" onclick="regAddRef('+i+');uniMsg(document.getElementById(\'regMsg\').textContent)">إلى قائمة المراجع</button></div></article>'};
+  const ulumCard=o=>o.k==='term'?'<article class="term-card"><h3>'+esc(ULUM_TERMS[o.i][0])+'</h3><p>'+esc(ULUM_TERMS[o.i][1])+'</p></article>':'<article class="term-card"><h3>'+(o.k==='rule'?'ضابط من دليل المصادر':'خطوة من منهج البحث')+'</h3><p>'+esc((o.k==='rule'?GUIDE_RULES:GUIDE_PATH)[o.i])+'</p></article>';
+  const siteCard=i=>{const x=sites[i];return '<a class="result-link" target="_blank" rel="noopener" href="'+esc(buildSiteUrl(x,plain))+'"><strong>'+esc(x.name)+'</strong><small>'+esc(x.type)+' — فتح البحث بالعبارة نفسها</small></a>'};
+  const refCard=i=>{const r=refs[i];return '<article class="card"><h3>'+esc(r.t)+'</h3><div class="meta">'+esc(r.a||'')+'</div><div class="book-tools"><button class="alt" onclick="document.getElementById(\'citeLab\').scrollIntoView({behavior:\'smooth\'})">فتح مختبر التوثيق</button></div></article>'};
+  const ext=plain?['dorar','sunnah','islamweb','waqfeya'].map((k,i)=>'<a class="result-link" target="_blank" rel="noopener" href="'+esc(hadithSourceUrl(k,plain))+'"><strong>'+['الدرر السنية','Sunnah.com','إسلام ويب','المكتبة الوقفية'][i]+'</strong><small>البحث بالعبارة «'+esc(plain)+'»</small></a>').join(''):'';
+  const webOn=document.getElementById('uniWeb')&&document.getElementById('uniWeb').checked;
+  const chips=[['all','الكل',null],['hadith','الأحاديث',res.rows.length],['books','الكتب',cats.books.length],['reg','المصادر المعتمدة',cats.reg.length],['ulum','علوم الحديث',cats.ulum.length],['sites','البوابات',cats.sites.length],['refs','مراجعي',cats.refs.length]].concat(webOn?[['web','الويب',null]]:[]);
+  out.innerHTML='<div id="uniMsg" class="mini-note" role="status" aria-live="polite"></div>'+notes.map(n=>'<div class="cnt-banner">'+esc(n)+'</div>').join('')+
+    '<div class="uni-chips">'+chips.map(c=>'<button class="uni-chip" data-chip="'+c[0]+'" onclick="uniSec(\''+c[0]+'\')">'+c[1]+(c[2]===null?'':' ('+c[2]+')')+'</button>').join('')+'</div>'+
+    sec('hadith','الأحاديث',res.rows.length,hs)+
+    (cats.books.length?sec('books','الكتب والمجاميع',cats.books.length,'<div class="grid">'+cap(cats.books,bookCard,12)+'</div>'):'')+
+    (cats.reg.length?sec('reg','المصادر المعتمدة',cats.reg.length,'<div class="grid">'+cap(cats.reg,regCard,12)+'</div>'):'')+
+    (cats.ulum.length?sec('ulum','علوم الحديث ومنهج البحث',cats.ulum.length,'<div class="grid">'+cap(cats.ulum,ulumCard,12)+'</div>'):'')+
+    (cats.sites.length?sec('sites','البوابات المجانية',cats.sites.length,'<div class="result-links">'+cap(cats.sites,siteCard,12)+'</div>'):'')+
+    (cats.refs.length?sec('refs','قائمة مراجعي',cats.refs.length,'<div class="grid">'+cap(cats.refs,refCard,12)+'</div>'):'')+
+    (webOn?sec('web','نتائج من الويب','…','<div id="uniWebBox"></div>'):'')+
+    (ext?sec('ext','متابعة البحث في مصادر خارجية',4,'<div class="mini-note">النتيجة في موقع خارجي لا تعني اعتمادها حكمًا نهائيًا؛ راجع النص في المصدر الأصلي.</div><div class="result-links">'+ext+'</div>'):'');
+  uniMore();
+  const stEl=document.getElementById('uniStatus');if(stEl)stEl.textContent=res.rows.length+' حديثًا مطابقًا، و'+cats.total+' نتيجة في بقية أقسام المنصة.';
+  if(manual)uniSyncHash();
+  if(webOn)uniWebRun(plain,my,manual,hlAll);
+  ['books','reg','ulum','sites','refs'].forEach(k=>{const e=out.querySelector('[data-sec="'+k+'"]');if(e)markDom(e,hlAll,true)});
+  const want=chips.find(c=>c[0]===uniState.sec&&(c[2]===null||c[2]>0))?uniState.sec:'all';uniSec(want)}
+function uniInit(){
+  const q=document.getElementById('uniQ');if(!q)return;
+  q.addEventListener('keydown',e=>{if(e.key==='Enter'){clearTimeout(uniTimer);uniSearch(true)}});
+  q.addEventListener('input',()=>{clearTimeout(uniTimer);if(q.value.trim().length>=2)uniTimer=setTimeout(()=>uniSearch(false),450);else if(!q.value.trim())uniClear()});
+  try{const w0=localStorage.getItem('hadith_uni_web');if(w0==='0')document.getElementById('uniWeb').checked=false}catch(e){}
+  document.getElementById('uniWeb').addEventListener('change',e=>{try{localStorage.setItem('hadith_uni_web',e.target.checked?'1':'0')}catch(x){}if(q.value.trim())uniSearch(true)});
+  ['uniMode','uniScope','uniBook'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{if(q.value.trim())uniSearch(false)}));
+  document.addEventListener('keydown',e=>{if(e.key==='/'&&!/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||'')){e.preventDefault();q.focus()}});
+  uniRefreshBooks();uniHistRender()}
+/* ===== v3.5: تحسينات إمكانية الوصول ===== */
+function a11yPass(root){
+  (root||document).querySelectorAll('label').forEach(l=>{
+    if(l.htmlFor||l.querySelector('input,select,textarea'))return;
+    let c=l.parentElement&&l.parentElement.querySelector('input[id],select[id],textarea[id]');
+    if(c)l.htmlFor=c.id});
+  (root||document).querySelectorAll('input,select,textarea').forEach(c=>{
+    if(c.type==='checkbox'||c.type==='hidden'||c.getAttribute('aria-label')||c.getAttribute('aria-labelledby'))return;
+    const has=(c.id&&document.querySelector('label[for="'+c.id+'"]'))||c.closest('label');
+    if(has)return;
+    const t=c.getAttribute('placeholder')||(c.tagName==='SELECT'&&c.options[0]?c.options[0].textContent:'')||c.title;
+    if(t)c.setAttribute('aria-label',t)})}
+
+/* ===== v3.5: حماية المدونة، ملف البحث، روابط البحث، خيارات العرض، عن المنصة ===== */
+const APP_VERSION='3.5.0',APP_DATE='2026-10-09',ABOUT_CONTACT_URL='',REG_REVIEWED_BY='';
+const APP_URL='https://hadith-platform.h-shebani.workers.dev/';
+const APP_LOG=[['3.5','النسخ الاحتياطي واستعادة المدونة وطلب التخزين الدائم، الاستيراد السريع، ملف البحث، روابط البحث، الوضع الليلي وخيارات العرض، صفحة «عن المنصة»، دعم التثبيت كتطبيق.'],['3.4','تحسين إمكانية الوصول وتحصين المعرّفات.'],['3.3','البحث في الويب: الدرر السنية وOpenAlex.'],['3.2','البحث الشامل في كل أقسام المنصة.'],['3.1','سجل المصادر المعتمدة من دليل المصادر والمراجع.']];
+function toast(m){const t=document.getElementById('toast');if(!t)return;t.textContent=m;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>{t.hidden=true},3800)}
+async function copyPlain(t){try{await navigator.clipboard.writeText(t);return true}catch(e){try{const a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();const ok=document.execCommand('copy');a.remove();return ok}catch(x){return false}}}
+function downloadBlob(name,blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{try{URL.revokeObjectURL(a.href)}catch(e){}a.remove()},1500)}
+const todayIso=()=>new Date().toISOString().slice(0,10);
+/* ---- خيارات العرض ---- */
+const DISP={dark:false,plain:false,fs:0};
+function dtext(t){t=String(t==null?'':t);return DISP.plain?t.replace(/[\u064B-\u065F\u0670\u0640]/g,''):t}
+function dispApply(){const r=document.documentElement;r.setAttribute('data-theme',DISP.dark?'dark':'light');r.style.setProperty('--htxt',(17+DISP.fs*2)+'px');
+  [['dispDark','dark'],['dispTash','plain']].forEach(p=>{const b=document.getElementById(p[0]);if(b){b.classList.toggle('on',!!DISP[p[1]]);b.setAttribute('aria-pressed',DISP[p[1]]?'true':'false')}})}
+function dispSave(){try{localStorage.setItem('hadith_disp',JSON.stringify(DISP))}catch(e){}}
+function dispRerender(){const q=document.getElementById('uniQ');if(q&&q.value.trim())uniSearch(false);const c=document.getElementById('corpusQ');if(c&&c.value.trim()&&typeof searchCorpus==='function')searchCorpus();dosRender()}
+function dispLoad2(){try{Object.assign(DISP,JSON.parse(localStorage.getItem('hadith_disp')||'{}'))}catch(e){}dispApply()}
+function dispToggle(k){DISP[k]=!DISP[k];dispApply();dispSave();dispRerender()}
+function dispFont(d){DISP.fs=Math.max(-3,Math.min(6,DISP.fs+d));dispApply();dispSave()}
+/* ---- التخزين والنسخ الاحتياطي ---- */
+const mb=n=>(n/1048576).toFixed(1);
+async function storInit(request){
+  const st=document.getElementById('storState'),qo=document.getElementById('storQuota');if(!st)return;
+  try{if(!(navigator.storage&&navigator.storage.persisted)){st.textContent='غير مدعوم في هذا المتصفح';return}
+    let p=await navigator.storage.persisted();if(!p&&request&&navigator.storage.persist)p=await navigator.storage.persist();
+    st.innerHTML=p?'<span class="badge ok">دائم ✓ لن يمسحه المتصفح تلقائيًا</span>':'<span class="badge warn">غير مضمون: قد يمسحه المتصفح عند ضيق المساحة أو بعد مدة دون استخدام</span>';
+    if(navigator.storage.estimate){const e=await navigator.storage.estimate();if(e&&e.quota)qo.textContent='المستخدم '+mb(e.usage||0)+' ميغابايت من نحو '+mb(e.quota)+' ميغابايت المتاحة.'}
+  }catch(e){st.textContent='تعذّر فحص التخزين'}}
+async function storRequest(){await storInit(true);toast('أُرسل طلب التخزين الدائم؛ قرار القبول للمتصفح.')}
+let bulkBusy=false;
+async function bulkImport(kind){
+  if(bulkBusy)return;const all=HADITH_EDITIONS.map(e=>e.code),sets={basic:['bukhari','muslim'],six:['bukhari','muslim','abudawud','tirmidhi','nasai','ibnmajah','malik'],all};
+  const todo=(sets[kind]||[]).filter(c=>!corpusState.meta[c]),st=document.getElementById('bulkStatus');
+  if(!todo.length){st.textContent='كل الكتب المطلوبة مستوردة مسبقًا.';return}
+  bulkBusy=true;let ok=0,fail=[];
+  for(let i=0;i<todo.length;i++){st.textContent='جارٍ استيراد «'+bookArName(todo[i])+'» ('+(i+1)+' من '+todo.length+')…';
+    try{await importBook(todo[i])}catch(e){}
+    if(corpusState.meta[todo[i]])ok++;else fail.push(bookArName(todo[i]))}
+  bulkBusy=false;st.textContent='اكتمل: استُورد '+ok+' من '+todo.length+(fail.length?'. تعذّر: '+fail.join('، ')+' (أعد المحاولة من بطاقة الكتاب).':'.');storInit(true)}
+async function backupExport(){
+  const codes=Object.keys(corpusState.meta);if(!codes.length)return toast('لا توجد كتب مستوردة لحفظها.');
+  toast('جارٍ تجهيز النسخة الاحتياطية…');
+  const parts=['{"format":"hadith-platform-corpus","version":1,"exportedAt":'+JSON.stringify(new Date().toISOString())+',"books":['];let first=true;
+  for(const c of codes){const rows=await getBookRows(c);
+    parts.push((first?'':',')+'{"code":'+JSON.stringify(c)+',"importedAt":'+(corpusState.meta[c].importedAt||0)+',"rows":'+JSON.stringify(rows.map(r=>({hadithnumber:r.hadithnumber,arabicnumber:r.arabicnumber,text:r.text,grades:r.grades,refBook:r.refBook,refHadith:r.refHadith})))+'}');first=false}
+  parts.push(']}');downloadBlob('hadith-corpus-backup-'+todayIso()+'.json',new Blob(parts,{type:'application/json'}));toast('تم حفظ النسخة الاحتياطية.')}
+async function jsonOfFile(f){try{return JSON.parse(await f.text())}catch(e){throw new Error('الملف ليس بصيغة JSON صالحة.')}}
+async function backupImport(file){
+  if(!file)return;
+  try{const d=await jsonOfFile(file);if(!d||d.format!=='hadith-platform-corpus'||!Array.isArray(d.books))throw new Error('الملف ليس نسخة احتياطية للمنصة.');
+    let nb=0,nh=0;
+    for(const b of d.books){const ed=HADITH_EDITIONS.find(e=>e.code===(b&&b.code));if(!ed||!Array.isArray(b.rows))continue;
+      const rows=b.rows.filter(r=>r&&typeof r.text==='string'&&r.text.trim()).map(r=>({uid:(b.code+'-'+r.hadithnumber).replace(/[^\w.\-]/g,'_'),book:b.code,hadithnumber:r.hadithnumber,arabicnumber:r.arabicnumber,text:String(r.text).trim(),grades:Array.isArray(r.grades)?r.grades.filter(g=>g&&typeof g.name==='string'&&typeof g.grade==='string').map(g=>({name:g.name,grade:g.grade})):[],refBook:r.refBook==null?null:r.refBook,refHadith:r.refHadith==null?null:r.refHadith}));
+      if(!rows.length)continue;await idbClearBook(b.code);await idbPutHadiths(b.code,rows);
+      corpusState.memory[b.code]=rows;rows.forEach(r=>corpusState.byUid[r.uid]=r);corpusState.meta[b.code]={count:rows.length,importedAt:Number(b.importedAt)||Date.now()};nb++;nh+=rows.length}
+    renderCorpusBooks();updateCorpusStats();refreshCorpusBookFilter();storInit(true);
+    toast(nb?'تمت الاستعادة: '+nb+' كتبًا و'+nh+' حديثًا.':'لم يُعثر في الملف على كتب صالحة للاستعادة.')
+  }catch(e){toast('تعذّرت الاستعادة: '+(e.message||'ملف غير صالح'))}
+  const f=document.getElementById('backupFile');if(f)f.value=''}
+const __ib=importBook;importBook=async function(c){await __ib(c);storInit(true)};
+/* ---- ملف البحث ---- */
+let dossier={title:'',items:[]};const DOS_ROLES=['أصل','طريق','متابعة','شاهد','غير مصنف'];
+try{const d0=JSON.parse(localStorage.getItem('hadith_dossier_v1')||'null');if(d0&&Array.isArray(d0.items))dossier=d0}catch(e){}
+function dosSave(){try{localStorage.setItem('hadith_dossier_v1',JSON.stringify(dossier))}catch(e){toast('تعذّر حفظ ملف البحث في المتصفح؛ صدّره كملف للاحتفاظ به.')}}
+const dosId=()=>'d'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function dosBadge(){const b=[...document.querySelectorAll('#tabs button')].find(x=>(x.getAttribute('onclick')||'').includes("'dossier'"));if(b)b.textContent='📁 ملف البحث'+(dossier.items.length?' ('+dossier.items.length+')':'')}
+function dosAdd(it){if(it.key&&dossier.items.some(x=>x.key===it.key)){toast('هذا الحديث موجود في ملف البحث.');return false}dossier.items.push(Object.assign({id:dosId(),role:'غير مصنف',note:'',addedAt:Date.now()},it));dosSave();dosRender();toast('أُضيف إلى ملف البحث ('+dossier.items.length+').');return true}
+function dosAddLocal(uid){const r=corpusState.byUid[uid];if(!r)return;dosAdd({key:'l:'+uid,type:'hadith',origin:'المدونة المحلية',text:r.text,source:bookArName(r.book),number:String(r.arabicnumber||r.hadithnumber||''),grades:(r.grades||[]).map(g=>g.name+': '+g.grade).join('؛ ')})}
+function dosAddWeb(i){const it=uniWebItems.d[i];if(!it)return;let k=0;for(const ch of it.text)k=(k*31+ch.charCodeAt(0))|0;dosAdd({key:'w:'+k,type:'hadith',origin:'الدرر السنية',text:it.text,source:it.source||'الموسوعة الحديثية',number:it.number||'',narrator:it.narrator||'',grades:[it.muhaddith?'المحدث: '+it.muhaddith:'',it.grade?'خلاصة الحكم: '+it.grade:''].filter(Boolean).join('؛ ')})}
+function dosAddNote(){dossier.items.push({id:dosId(),type:'note',role:'غير مصنف',text:'',note:'',addedAt:Date.now()});dosSave();dosRender()}
+function dosTitleSet(v){dossier.title=String(v).slice(0,200);dosSave()}
+function dosSet(i,k,v){const it=dossier.items[i];if(!it)return;it[k]=k==='role'?(DOS_ROLES.includes(v)?v:'غير مصنف'):String(v).slice(0,20000);dosSave();if(k==='role')dosSummary()}
+function dosMove(i,d){const j=i+d,a=dossier.items;if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];dosSave();dosRender()}
+function dosDel(i){if(!confirm('حذف هذا العنصر من ملف البحث؟'))return;dossier.items.splice(i,1);dosSave();dosRender()}
+function dosClear(){if(!dossier.items.length&&!dossier.title)return;if(!confirm('مسح ملف البحث كاملًا؟ يُنصح بحفظه أولًا.'))return;dossier={title:'',items:[]};dosSave();dosRender()}
+function dosSummary(){const e=document.getElementById('dosSummary');if(!e)return;const hs=dossier.items.filter(x=>x.type==='hadith');e.textContent=hs.length?DOS_ROLES.map(r=>r+': '+hs.filter(x=>x.role===r).length).join(' · '):''}
+function dosRender(){
+  const box=document.getElementById('dosList');if(!box)return;const ti=document.getElementById('dosTitle');if(ti&&document.activeElement!==ti)ti.value=dossier.title||'';
+  const c=document.getElementById('dosCount');if(c)c.textContent=dossier.items.length+' عنصرًا';dosBadge();dosSummary();
+  box.innerHTML=dossier.items.length?dossier.items.map((it,i)=>{
+    const tools='<div class="book-tools"><button class="alt" onclick="dosMove('+i+',-1)" aria-label="تقديم">▲</button><button class="alt" onclick="dosMove('+i+',1)" aria-label="تأخير">▼</button><button class="alt" onclick="dosDel('+i+')">🗑 حذف</button></div>';
+    if(it.type==='note')return '<article class="hadith-card dos-item"><div class="meta">ملاحظة حرة — '+(i+1)+'</div><textarea aria-label="نص الملاحظة" placeholder="اكتب ملاحظتك…" oninput="dosSet('+i+',\'text\',this.value)">'+esc(it.text)+'</textarea>'+tools+'</article>';
+    return '<article class="hadith-card dos-item"><div class="meta">'+(i+1)+' — '+esc(it.source||'')+(it.number?' — رقم '+esc(it.number):'')+' <span class="tag">'+esc(it.origin||'')+'</span></div><div class="hadith-text">'+esc(dtext(it.text))+'</div>'+(it.narrator?'<div class="grade-row"><span class="grade-chip">الراوي: '+esc(it.narrator)+'</span></div>':'')+(it.grades?'<div class="grade-row"><span class="grade-chip">'+esc(it.grades)+'</span></div>':'')+'<div class="dos-row"><label for="dr'+i+'">الدور في التخريج</label><select id="dr'+i+'" onchange="dosSet('+i+',\'role\',this.value)">'+DOS_ROLES.map(r=>'<option'+(it.role===r?' selected':'')+'>'+r+'</option>').join('')+'</select></div><textarea aria-label="ملاحظات الباحث" placeholder="ملاحظاتك: الإسناد، العلة، الحكم، وجه الاستشهاد…" oninput="dosSet('+i+',\'note\',this.value)">'+esc(it.note||'')+'</textarea>'+tools+'</article>'}).join(''):'<div class="empty">ملف البحث فارغ. أضف أحاديث بزر «📁 إلى ملف البحث» من نتائج البحث الشامل أو المدونة المحلية.</div>'}
+function dosHtml(){
+  const st=(document.getElementById('citeStyle')||{}).value||'apa',E=esc,hs=dossier.items.filter(x=>x.type==='hadith'),notes=dossier.items.filter(x=>x.type==='note'&&x.text.trim());
+  let h='<h1>'+E(dossier.title||'ملف بحث حديثي')+'</h1><p class="meta">أُعدّ بمنصة الحديث الشاملة (الإصدار '+APP_VERSION+') — '+E(todayIso())+'</p>';
+  if(hs.length)h+='<p class="meta">'+DOS_ROLES.map(r=>r+': '+hs.filter(x=>x.role===r).length).join(' · ')+'</p>';
+  DOS_ROLES.forEach(r=>{const g=hs.filter(x=>x.role===r);if(!g.length)return;h+='<h2>'+E(r==='غير مصنف'?'أحاديث غير مصنَّفة':(r==='أصل'?'الأصل':(r==='طريق'?'الطرق':(r==='متابعة'?'المتابعات':'الشواهد'))))+' ('+g.length+')</h2>';
+    g.forEach(x=>{h+='<div class="item"><p class="hd">'+E(x.text)+'</p><p class="src">المصدر: '+E(x.source||'')+(x.number?' — رقم '+E(x.number):'')+(x.origin?' ('+E(x.origin)+')':'')+'</p>'+(x.narrator?'<p class="src">الراوي: '+E(x.narrator)+'</p>':'')+(x.grades?'<p class="src">الحكم المنقول: '+E(x.grades)+'</p>':'')+(x.note&&x.note.trim()?'<p class="nt"><b>ملاحظة الباحث:</b> '+E(x.note).replace(/\n/g,'<br>')+'</p>':'')+'</div>'})});
+  if(notes.length){h+='<h2>ملاحظات الباحث</h2>';notes.forEach(x=>{h+='<p class="nt">'+E(x.text).replace(/\n/g,'<br>')+'</p>'})}
+  if(refs.length){h+='<h2>المراجع</h2><ol>'+refs.map((r,i)=>fmtRef(r,st,'bib',i+1)).sort((a,b)=>st==='ieee'?0:a.localeCompare(b,'ar')).map(t=>'<li>'+E(t)+'</li>').join('')+'</ol>'}
+  h+='<p class="foot">نصوص الأحاديث وأحكام المحدثين منقولة من مصادرها كما وردت، ولا تغني عن مراجعة الطبعات المحققة وأهل الاختصاص.</p>';return h}
+const DOS_CSS='body{font-family:"Traditional Arabic","Simplified Arabic",Tahoma,Arial,sans-serif;direction:rtl;text-align:right;font-size:14pt;line-height:1.9;color:#10243a}h1{text-align:center;color:#0b6170;font-size:22pt}h2{color:#0b6170;border-bottom:1px solid #9bc5cc;font-size:16pt}.meta{text-align:center;color:#56657a;font-size:11pt}.item{margin:10px 0 16px;padding:8px 12px;border-right:4px solid #087f8c}.hd{font-size:15pt}.src{color:#56657a;font-size:11.5pt;margin:2px 0}.nt{background:#f2fafb;padding:6px 10px;font-size:12.5pt}.foot{margin-top:24px;color:#56657a;font-size:10.5pt;border-top:1px solid #ccc;padding-top:8px}li{margin-bottom:6px}';
+function dosWord(){if(!dossier.items.length)return toast('ملف البحث فارغ.');
+  const html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40" dir="rtl" lang="ar"><head><meta charset="utf-8"><title>'+esc(dossier.title||'ملف بحث')+'</title><style>@page{size:A4;margin:2cm}'+DOS_CSS+'</style></head><body dir="rtl">'+dosHtml()+'</body></html>';
+  downloadBlob('ملف-بحث-'+todayIso()+'.doc',new Blob(['\ufeff',html],{type:'application/msword'}));toast('تم تصدير ملف Word. إن لم يفتح كاملًا فاحفظه بصيغة docx من داخل Word.')}
+function dosPrint(){if(!dossier.items.length)return toast('ملف البحث فارغ.');
+  const w=window.open('','_blank');if(!w)return toast('اسمح بالنوافذ المنبثقة لهذا الموقع ثم أعد المحاولة.');
+  w.document.write('<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="utf-8"><title>'+esc(dossier.title||'ملف بحث')+'</title><style>'+DOS_CSS+'@page{size:A4;margin:1.8cm}</style></head><body>'+dosHtml()+'</body></html>');w.document.close();setTimeout(()=>{try{w.focus();w.print()}catch(e){}},400)}
+function dosExportJson(){if(!dossier.items.length&&!refs.length)return toast('لا شيء لحفظه.');downloadBlob('research-file-'+todayIso()+'.json',new Blob([JSON.stringify({format:'hadith-platform-dossier',version:1,exportedAt:new Date().toISOString(),dossier,refs})],{type:'application/json'}));toast('تم حفظ ملف البحث مع قائمة المراجع.')}
+async function dosImportJson(file){if(!file)return;
+  try{const d=await jsonOfFile(file);if(!d||d.format!=='hadith-platform-dossier'||!d.dossier||!Array.isArray(d.dossier.items))throw new Error('الملف ليس ملف بحث للمنصة.');
+    let n=0,r=0;const S=(v,m)=>String(v==null?'':v).slice(0,m||20000);
+    d.dossier.items.forEach(x=>{if(!x||typeof x!=='object')return;const it={id:dosId(),type:x.type==='note'?'note':'hadith',role:DOS_ROLES.includes(x.role)?x.role:'غير مصنف',text:S(x.text),note:S(x.note),addedAt:Number(x.addedAt)||Date.now()};
+      if(it.type==='hadith'){it.key=S(x.key,200);it.origin=S(x.origin,100);it.source=S(x.source,300);it.number=S(x.number,50);it.narrator=S(x.narrator,300);it.grades=S(x.grades,2000);if(!it.text.trim()||(it.key&&dossier.items.some(y=>y.key===it.key)))return}
+      dossier.items.push(it);n++});
+    if(!dossier.title&&d.dossier.title)dossier.title=S(d.dossier.title,200);
+    if(Array.isArray(d.refs))d.refs.forEach(x=>{if(x&&typeof x==='object'&&typeof x.key==='string'&&typeof x.t==='string'&&['hadith','book','paper'].includes(x.type)&&addRef(x))r++});
+    dosSave();dosRender();renderRefs();toast('تم الفتح: '+n+' عنصرًا و'+r+' مرجعًا جديدًا.')
+  }catch(e){toast('تعذّر فتح الملف: '+(e.message||'ملف غير صالح'))}
+  const f=document.getElementById('dosFile');if(f)f.value=''}
+/* ---- روابط البحث ---- */
+function uniHash(){const q=document.getElementById('uniQ').value.trim();if(!q)return '';const p=new URLSearchParams();p.set('q',q);const m=document.getElementById('uniMode').value,sc=document.getElementById('uniScope').value;if(m!=='smart')p.set('m',m);if(sc!=='text')p.set('s',sc);if(!document.getElementById('uniWeb').checked)p.set('w','0');return '#'+p.toString()}
+function uniSyncHash(){try{history.replaceState(null,'',location.href.split('#')[0]+uniHash())}catch(e){}}
+async function uniShare(){const h=uniHash();if(!h)return toast('اكتب عبارة البحث أولًا.');const ok=await copyPlain(location.href.split('#')[0]+h);toast(ok?'نُسخ رابط البحث. يعمل عند من استورد الكتب، والويب يعمل للجميع.':'تعذّر النسخ.')}
+function uniFromHash(){const h=location.hash;if(!/^#(?:.*&)?q=/.test(h))return;const p=new URLSearchParams(h.slice(1)),q=(p.get('q')||'').slice(0,300);if(!q)return;
+  const mode=['smart','phrase','any','fuzzy','start','whole'].includes(p.get('m'))?p.get('m'):'smart',sc=['text','all','meta'].includes(p.get('s'))?p.get('s'):'text';
+  document.getElementById('uniQ').value=q;document.getElementById('uniMode').value=mode;document.getElementById('uniScope').value=sc;document.getElementById('uniWeb').checked=p.get('w')!=='0';uniSearch(false)}
+const __ic=initCorpus;initCorpus=async function(){await __ic();storInit(false);uniFromHash()};
+window.addEventListener('hashchange',uniFromHash);
+/* ---- عن المنصة ---- */
+function renderAbout(){
+  ['verHead','verFoot','verAbout'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=id==='verAbout'?APP_VERSION+' — '+APP_DATE:APP_VERSION.replace(/\.0$/,'')});
+  const lg=document.getElementById('aboutLog');if(lg)lg.innerHTML=APP_LOG.map(x=>'<li><b>'+esc(x[0])+':</b> '+esc(x[1])+'</li>').join('');
+  const url=/^https?:$/.test(location.protocol)?location.href.split('#')[0]:APP_URL,c=document.getElementById('aboutCite');
+  if(c)c.textContent='الشيباني، حسن. ('+APP_DATE.slice(0,4)+'). منصة الحديث الشاملة [منصة إلكترونية]. '+url+'. تاريخ الاطلاع: '+accessDate()+'.';
+  const rv=REG_REVIEWED_BY?('سجل المصادر المعتمدة راجعه علميًا: '+REG_REVIEWED_BY+'.'):'سجل المصادر المعتمدة قيد المراجعة العلمية من متخصص، ولم يُعتمد نهائيًا بعد.';
+  const a=document.getElementById('aboutReview');if(a)a.textContent=rv;const r2=document.getElementById('regReview');if(r2)r2.textContent=REG_REVIEWED_BY?'':'(السجل قيد المراجعة العلمية.)';
+  const ct=document.getElementById('aboutContact');if(ct)ct.innerHTML=ABOUT_CONTACT_URL?'للملاحظات والتصحيحات: <a href="'+esc(ABOUT_CONTACT_URL)+'" target="_blank" rel="noopener">تواصل مع المشرف</a>':'للملاحظات والتصحيحات تواصل مع المشرف على المنصة د. حسن الشيباني.'}
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})})}
+
+const __ucs=updateCorpusStats;updateCorpusStats=function(){__ucs.apply(this,arguments);try{uniRefreshBooks()}catch(e){}};
+
+renderSites();initCats();renderBooks();initCiteLab();initAgent();renderUlum();initRegistry();uniInit();dispLoad2();dosRender();renderAbout();a11yPass();initCorpus();document.getElementById('siteSearchQ')?.addEventListener('input',()=>renderSites());try{let t=localStorage.getItem('hadith_active_tab');if(t){let b=[...document.querySelectorAll('#tabs button')].find(x=>x.getAttribute('onclick')?.includes("'"+t+"'"));if(b)showTab(t,b)}}catch(e){}
+</script></body></html>
